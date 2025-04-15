@@ -1,0 +1,247 @@
+[rank: 0] Seed set to 42
+[NeMo I 2025-03-31 11:54:32 offline_diar_infer:41] Hydra config: name: ClusterDiarizer
+    num_workers: 1
+    sample_rate: 16000
+    batch_size: 64
+    device: null
+    verbose: true
+    diarizer:
+      manifest_filepath: /nlp/scr/askhan1/github_files/edm25-nemo-classroom-diarization/manifests/classbank_sample_manifest.json
+      out_dir: test
+      oracle_vad: false
+      collar: 0.25
+      ignore_overlap: true
+      vad:
+        model_path: null
+        external_vad_manifest: ./vad_outs.json
+        parameters:
+          window_length_in_sec: 0.63
+          shift_length_in_sec: 0.01
+          smoothing: false
+          overlap: 0.5
+          onset: 0.9
+          offset: 0.5
+          pad_onset: 0
+          pad_offset: 0
+          min_duration_on: 0
+          min_duration_off: 0.6
+          filter_speech_first: true
+      speaker_embeddings:
+        model_path: titanet_large
+        parameters:
+          window_length_in_sec:
+          - 3.0
+          - 2.5
+          - 2.0
+          - 1.5
+          - 1.0
+          - 0.5
+          shift_length_in_sec:
+          - 1.5
+          - 1.25
+          - 1.0
+          - 0.75
+          - 0.5
+          - 0.25
+          multiscale_weights:
+          - 1
+          - 1
+          - 1
+          - 1
+          - 1
+          - 1
+          save_embeddings: false
+      clustering:
+        parameters:
+          oracle_num_speakers: true
+          max_num_speakers: 8
+          enhanced_count_thres: 80
+          max_rp_threshold: 0.25
+          sparse_search_volume: 30
+          maj_vote_spk_count: false
+          chunk_cluster_count: 50
+          embeddings_per_chunk: 10000
+      msdd_model:
+        model_path: null
+        parameters:
+          use_speaker_model_from_ckpt: true
+          infer_batch_size: 25
+          sigmoid_threshold:
+          - 0.7
+          seq_eval_mode: false
+          split_infer: true
+          diar_window_length: 50
+          overlap_infer_spk_limit: 5
+      asr:
+        model_path: stt_en_quartznet15x5
+        parameters:
+          asr_based_vad: false
+          asr_based_vad_threshold: 1.0
+          asr_batch_size: null
+          decoder_delay_in_sec: null
+          word_ts_anchor_offset: null
+          word_ts_anchor_pos: start
+          fix_word_ts_with_VAD: false
+          colored_text: false
+          print_time: true
+          break_lines: false
+        ctc_decoder_parameters:
+          pretrained_language_model: null
+          beam_width: 256
+          alpha: 2.0
+          beta: 1.5
+        realigning_lm_parameters:
+          arpa_language_model: null
+          min_number_of_words: 1
+          max_number_of_words: 25
+          logprob_diff_threshold: 1.2
+    
+[NeMo I 2025-03-31 11:54:32 clustering_diarizer:150] Loading pretrained titanet_large model from NGC
+[NeMo I 2025-03-31 11:54:32 cloud:58] Found existing object /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo.
+[NeMo I 2025-03-31 11:54:32 cloud:64] Re-using file from: /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo
+[NeMo I 2025-03-31 11:54:32 common:826] Instantiating model from pre-trained checkpoint
+[NeMo W 2025-03-31 11:54:32 modelPT:176] If you intend to do training or fine-tuning, please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
+    Train config : 
+    manifest_filepath: /manifests/combined_fisher_swbd_voxceleb12_librispeech/train.json
+    sample_rate: 16000
+    labels: null
+    batch_size: 64
+    shuffle: true
+    is_tarred: false
+    tarred_audio_filepaths: null
+    tarred_shard_strategy: scatter
+    augmentor:
+      noise:
+        manifest_path: /manifests/noise/rir_noise_manifest.json
+        prob: 0.5
+        min_snr_db: 0
+        max_snr_db: 15
+      speed:
+        prob: 0.5
+        sr: 16000
+        resample_type: kaiser_fast
+        min_speed_rate: 0.95
+        max_speed_rate: 1.05
+    num_workers: 15
+    pin_memory: true
+    
+[NeMo W 2025-03-31 11:54:32 modelPT:183] If you intend to do validation, please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
+    Validation config : 
+    manifest_filepath: /manifests/combined_fisher_swbd_voxceleb12_librispeech/dev.json
+    sample_rate: 16000
+    labels: null
+    batch_size: 128
+    shuffle: false
+    num_workers: 15
+    pin_memory: true
+    
+[NeMo I 2025-03-31 11:54:32 features:305] PADDING: 16
+[NeMo I 2025-03-31 11:54:34 save_restore_connector:275] Model EncDecSpeakerLabelModel was successfully restored from /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo.
+[NeMo W 2025-03-31 11:54:34 clustering_diarizer:398] Deleting previous clustering diarizer outputs.
+[NeMo I 2025-03-31 11:54:34 speaker_utils:92] Number of files to diarize: 1
+[NeMo I 2025-03-31 11:54:34 clustering_diarizer:281] Subsegmentation for embedding extraction: scale0, test/speaker_outputs/subsegments_scale0.json
+[NeMo I 2025-03-31 11:54:34 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-03-31 11:54:34 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-03-31 11:54:34 collections:880] Dataset successfully loaded with 336 items and total duration provided from manifest is  0.23 hours.
+[NeMo I 2025-03-31 11:54:34 collections:886] # 336 files loaded accounting to # 1 labels
+[1/6] extract embeddings:   0%|          | 0/6 [00:00<?, ?it/s][1/6] extract embeddings:  17%|█▋        | 1/6 [00:01<00:05,  1.05s/it][1/6] extract embeddings:  67%|██████▋   | 4/6 [00:01<00:00,  4.30it/s][1/6] extract embeddings: 100%|██████████| 6/6 [00:01<00:00,  6.40it/s]Traceback (most recent call last):
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
+    finalizer()
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
+    res = self._callback(*self._args, **self._kwargs)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
+    rmtree(tempdir)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
+    _rmtree_safe_fd(fd, path, onerror)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
+    onerror(os.unlink, fullname, sys.exc_info())
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
+    os.unlink(entry.name, dir_fd=topfd)
+OSError: [Errno 16] Device or resource busy: '.nfs0000000000179ec300000466'
+[1/6] extract embeddings: 100%|██████████| 6/6 [00:01<00:00,  4.53it/s]
+[NeMo I 2025-03-31 11:54:36 clustering_diarizer:281] Subsegmentation for embedding extraction: scale1, test/speaker_outputs/subsegments_scale1.json
+[NeMo I 2025-03-31 11:54:36 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-03-31 11:54:36 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-03-31 11:54:36 collections:880] Dataset successfully loaded with 400 items and total duration provided from manifest is  0.24 hours.
+[NeMo I 2025-03-31 11:54:36 collections:886] # 400 files loaded accounting to # 1 labels
+[2/6] extract embeddings:   0%|          | 0/7 [00:00<?, ?it/s][2/6] extract embeddings:  14%|█▍        | 1/7 [00:00<00:00,  8.03it/s][2/6] extract embeddings:  57%|█████▋    | 4/7 [00:00<00:00, 18.89it/s][2/6] extract embeddings: 100%|██████████| 7/7 [00:00<00:00, 23.32it/s]Traceback (most recent call last):
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
+    finalizer()
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
+    res = self._callback(*self._args, **self._kwargs)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
+    rmtree(tempdir)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
+    _rmtree_safe_fd(fd, path, onerror)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
+    onerror(os.unlink, fullname, sys.exc_info())
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
+    os.unlink(entry.name, dir_fd=topfd)
+OSError: [Errno 16] Device or resource busy: '.nfs0000000000177cff00000467'
+[2/6] extract embeddings: 100%|██████████| 7/7 [00:00<00:00, 18.26it/s]
+[NeMo I 2025-03-31 11:54:36 clustering_diarizer:281] Subsegmentation for embedding extraction: scale2, test/speaker_outputs/subsegments_scale2.json
+[NeMo I 2025-03-31 11:54:36 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-03-31 11:54:36 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-03-31 11:54:36 collections:880] Dataset successfully loaded with 502 items and total duration provided from manifest is  0.25 hours.
+[NeMo I 2025-03-31 11:54:36 collections:886] # 502 files loaded accounting to # 1 labels
+[3/6] extract embeddings:   0%|          | 0/8 [00:00<?, ?it/s][3/6] extract embeddings:  12%|█▎        | 1/8 [00:00<00:00,  8.74it/s][3/6] extract embeddings:  62%|██████▎   | 5/8 [00:00<00:00, 23.74it/s]Traceback (most recent call last):
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
+    finalizer()
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
+    res = self._callback(*self._args, **self._kwargs)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
+    rmtree(tempdir)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
+    _rmtree_safe_fd(fd, path, onerror)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
+    onerror(os.unlink, fullname, sys.exc_info())
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
+    os.unlink(entry.name, dir_fd=topfd)
+OSError: [Errno 16] Device or resource busy: '.nfs000000000017b2e400000468'
+[3/6] extract embeddings: 100%|██████████| 8/8 [00:00<00:00, 21.79it/s]
+[NeMo I 2025-03-31 11:54:36 clustering_diarizer:281] Subsegmentation for embedding extraction: scale3, test/speaker_outputs/subsegments_scale3.json
+[NeMo I 2025-03-31 11:54:36 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-03-31 11:54:36 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-03-31 11:54:36 collections:880] Dataset successfully loaded with 675 items and total duration provided from manifest is  0.26 hours.
+[NeMo I 2025-03-31 11:54:36 collections:886] # 675 files loaded accounting to # 1 labels
+[4/6] extract embeddings:   0%|          | 0/11 [00:00<?, ?it/s][4/6] extract embeddings:   9%|▉         | 1/11 [00:00<00:03,  3.12it/s][4/6] extract embeddings:  45%|████▌     | 5/11 [00:00<00:00, 14.17it/s][4/6] extract embeddings:  82%|████████▏ | 9/11 [00:00<00:00, 20.42it/s]Traceback (most recent call last):
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
+    finalizer()
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
+    res = self._callback(*self._args, **self._kwargs)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
+    rmtree(tempdir)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
+    _rmtree_safe_fd(fd, path, onerror)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
+    onerror(os.unlink, fullname, sys.exc_info())
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
+    os.unlink(entry.name, dir_fd=topfd)
+OSError: [Errno 16] Device or resource busy: '.nfs000000000017a4ee00000469'
+[4/6] extract embeddings: 100%|██████████| 11/11 [00:00<00:00, 16.61it/s]
+[NeMo I 2025-03-31 11:54:37 clustering_diarizer:281] Subsegmentation for embedding extraction: scale4, test/speaker_outputs/subsegments_scale4.json
+[NeMo I 2025-03-31 11:54:37 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-03-31 11:54:37 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-03-31 11:54:37 collections:880] Dataset successfully loaded with 1036 items and total duration provided from manifest is  0.28 hours.
+[NeMo I 2025-03-31 11:54:37 collections:886] # 1036 files loaded accounting to # 1 labels
+[5/6] extract embeddings:   0%|          | 0/17 [00:00<?, ?it/s][5/6] extract embeddings:   6%|▌         | 1/17 [00:00<00:01,  8.71it/s][5/6] extract embeddings:  35%|███▌      | 6/17 [00:00<00:00, 27.74it/s][5/6] extract embeddings:  59%|█████▉    | 10/17 [00:00<00:00, 30.45it/s][5/6] extract embeddings:  82%|████████▏ | 14/17 [00:00<00:00, 32.17it/s]Traceback (most recent call last):
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
+    finalizer()
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
+    res = self._callback(*self._args, **self._kwargs)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
+    rmtree(tempdir)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
+    _rmtree_safe_fd(fd, path, onerror)
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
+    onerror(os.unlink, fullname, sys.exc_info())
+  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
+    os.unlink(entry.name, dir_fd=topfd)
+OSError: [Errno 16] Device or resource busy: '.nfs000000000017b6530000046a'
+[5/6] extract embeddings: 100%|██████████| 17/17 [00:00<00:00, 27.83it/s]
+[NeMo I 2025-03-31 11:54:39 clustering_diarizer:281] Subsegmentation for embedding extraction: scale5, test/speaker_outputs/subsegments_scale5.json
+[NeMo I 2025-03-31 11:54:39 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-03-31 11:54:39 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-03-31 11:54:39 collections:880] Dataset successfully loaded with 2123 items and total duration provided from manifest is  0.29 hours.
+[NeMo I 2025-03-31 11:54:39 collections:886] # 2123 files loaded accounting to # 1 labels
+[6/6] extract embeddings:   0%|          | 0/34 [00:00<?, ?it/s][6/6] extract embeddings:   3%|▎         | 1/34 [00:00<00:10,  3.10it/s][6/6] extract embeddings:  18%|█▊        | 6/34 [00:00<00:01, 16.79it/s]

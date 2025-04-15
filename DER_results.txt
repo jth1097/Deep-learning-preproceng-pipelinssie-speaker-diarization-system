@@ -1,0 +1,1 @@
+alpha=0.8, onset=0.3, offset=0.2,     | FA: 0.0006 | MISS: 0.0003 | CER: 0.0331 | DER: 0.0339 | Spk. Count Acc. 1.0000

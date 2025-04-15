@@ -1,0 +1,9 @@
+alpha=0.0, onset=0.9, offset=0.8,     | FA: 1.2868 | MISS: 0.0034 | CER: 0.3907 | DER: 1.6809 | Spk. Count Acc. 1.0000
+alpha=0.0, onset=0.9, offset=0.7,     | FA: 1.2934 | MISS: 0.0034 | CER: 0.3907 | DER: 1.6875 | Spk. Count Acc. 1.0000
+alpha=0.0, onset=0.8, offset=0.7,     | FA: 1.2938 | MISS: 0.0034 | CER: 0.3907 | DER: 1.6879 | Spk. Count Acc. 1.0000
+alpha=0.0, onset=0.9, offset=0.6,     | FA: 1.3053 | MISS: 0.0034 | CER: 0.3874 | DER: 1.6962 | Spk. Count Acc. 1.0000
+alpha=0.0, onset=0.8, offset=0.6,     | FA: 1.3057 | MISS: 0.0034 | CER: 0.3874 | DER: 1.6966 | Spk. Count Acc. 1.0000
+alpha=0.0, onset=0.7, offset=0.6,     | FA: 1.3076 | MISS: 0.0034 | CER: 0.3874 | DER: 1.6984 | Spk. Count Acc. 1.0000
+alpha=0.0, onset=0.9, offset=0.5,     | FA: 1.3076 | MISS: 0.0034 | CER: 0.3874 | DER: 1.6984 | Spk. Count Acc. 1.0000
+alpha=0.0, onset=0.8, offset=0.5,     | FA: 1.3080 | MISS: 0.0034 | CER: 0.3874 | DER: 1.6988 | Spk. Count Acc. 1.0000
+alpha=0.0, onset=0.7, offset=0.5,     | FA: 1.3099 | MISS: 0.0034 | CER: 0.3874 | DER: 1.7007 | Spk. Count Acc. 1.0000
