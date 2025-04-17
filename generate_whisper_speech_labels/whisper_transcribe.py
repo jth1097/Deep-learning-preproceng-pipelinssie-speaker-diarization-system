@@ -17,7 +17,7 @@ output_dir = args.output_dir
 # Ensure output directory exists
 os.makedirs(output_dir, exist_ok=True)
 
-MODEL = "large-v3"
+MODEL = "large-v2"
 # Load Whisper model once
 model = whisper.load_model(MODEL, device="cuda")
 with open(manifest_file, 'r') as f:
@@ -29,9 +29,9 @@ with open(manifest_file, 'r') as f:
         npy_path = os.path.join(output_dir, base_name + ".npy")
 
         # uncomment if you want to skip over existing files
-        # if os.path.exists(npy_path):
-        #     print(f"Skipping {audio_path}, output already exists.")
-        #     continue
+        if os.path.exists(npy_path):
+            print(f"Skipping {audio_path}, output already exists.")
+            continue
         
         print("Processing:", audio_path)
 

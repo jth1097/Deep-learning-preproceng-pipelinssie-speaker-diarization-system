@@ -2,8 +2,8 @@
 
 RESULTS_FILE="DER_results.txt" # Name of the file where we'll store the summary of FA results
 DIARIZER_LOG="diarizer_temp.log" # Temporary log file to capture the diarizer output
-CKPT="checkpoints/w2v2-robust-large-ckpt/ckpt-1.pt"
-MANIFEST_FILE="manifests/test.json"
+CKPT="/nlp/scr/askhan1/train_ahmed_hf/checkpoints-noisy/ckpt-1.pt"
+MANIFEST_FILE="/nlp/scr/askhan1/clipped_umd/UMD_clipped_test_manifest_2s_noisy.json"
 
 # output directories
 VAD_OUTPUT="vad_output_frames"
@@ -26,12 +26,12 @@ python generate_whisper_speech_labels/whisper_transcribe.py \
 # Combine outputs
 # Clear any old results file
 rm -f "${RESULTS_FILE}"
-
-for alpha in 0.8
+# $(seq 0.10 0.20 1.0)
+for alpha in 1.0
 do
-  for offset in 0.2
+  for offset in $(seq 0.10 0.05 0.80)
   do
-    for onset in 0.3
+    for onset in $(seq 0.30 0.05 0.90)
     do
         if (( $(echo "$onset > $offset" | bc -l) )); then
             echo "--------------------------------------------------"

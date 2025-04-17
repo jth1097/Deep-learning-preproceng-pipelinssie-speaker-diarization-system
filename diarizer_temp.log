@@ -1,12 +1,12 @@
 [rank: 0] Seed set to 42
-[NeMo I 2025-04-14 22:23:15 offline_diar_infer:41] Hydra config: name: ClusterDiarizer
+[NeMo I 2025-04-17 02:19:16 offline_diar_infer:41] Hydra config: name: ClusterDiarizer
     num_workers: 1
     sample_rate: 16000
     batch_size: 64
     device: null
     verbose: true
     diarizer:
-      manifest_filepath: manifests/test.json
+      manifest_filepath: /nlp/scr/askhan1/clipped_umd/UMD_clipped_test_manifest_2s_noisy.json
       out_dir: diarization_output
       oracle_vad: false
       collar: 0.25
@@ -96,11 +96,11 @@
           max_number_of_words: 25
           logprob_diff_threshold: 1.2
     
-[NeMo I 2025-04-14 22:23:15 clustering_diarizer:150] Loading pretrained titanet_large model from NGC
-[NeMo I 2025-04-14 22:23:15 cloud:58] Found existing object /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo.
-[NeMo I 2025-04-14 22:23:15 cloud:64] Re-using file from: /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo
-[NeMo I 2025-04-14 22:23:15 common:826] Instantiating model from pre-trained checkpoint
-[NeMo W 2025-04-14 22:23:16 modelPT:176] If you intend to do training or fine-tuning, please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
+[NeMo I 2025-04-17 02:19:16 clustering_diarizer:150] Loading pretrained titanet_large model from NGC
+[NeMo I 2025-04-17 02:19:16 cloud:58] Found existing object /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo.
+[NeMo I 2025-04-17 02:19:16 cloud:64] Re-using file from: /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo
+[NeMo I 2025-04-17 02:19:16 common:826] Instantiating model from pre-trained checkpoint
+[NeMo W 2025-04-17 02:19:16 modelPT:176] If you intend to do training or fine-tuning, please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
     Train config : 
     manifest_filepath: /manifests/combined_fisher_swbd_voxceleb12_librispeech/train.json
     sample_rate: 16000
@@ -125,7 +125,7 @@
     num_workers: 15
     pin_memory: true
     
-[NeMo W 2025-04-14 22:23:16 modelPT:183] If you intend to do validation, please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
+[NeMo W 2025-04-17 02:19:16 modelPT:183] If you intend to do validation, please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
     Validation config : 
     manifest_filepath: /manifests/combined_fisher_swbd_voxceleb12_librispeech/dev.json
     sample_rate: 16000
@@ -135,139 +135,59 @@
     num_workers: 15
     pin_memory: true
     
-[NeMo I 2025-04-14 22:23:16 features:305] PADDING: 16
-[NeMo I 2025-04-14 22:23:17 save_restore_connector:275] Model EncDecSpeakerLabelModel was successfully restored from /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo.
-[NeMo I 2025-04-14 22:23:17 speaker_utils:92] Number of files to diarize: 1
-[NeMo I 2025-04-14 22:23:17 clustering_diarizer:281] Subsegmentation for embedding extraction: scale0, diarization_output/speaker_outputs/subsegments_scale0.json
-[NeMo I 2025-04-14 22:23:17 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-14 22:23:17 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-14 22:23:17 collections:880] Dataset successfully loaded with 478 items and total duration provided from manifest is  0.40 hours.
-[NeMo I 2025-04-14 22:23:17 collections:886] # 478 files loaded accounting to # 1 labels
-[1/6] extract embeddings:   0%|          | 0/8 [00:00<?, ?it/s][1/6] extract embeddings:  12%|█▎        | 1/8 [00:01<00:07,  1.07s/it][1/6] extract embeddings:  50%|█████     | 4/8 [00:01<00:00,  4.14it/s][1/6] extract embeddings:  75%|███████▌  | 6/8 [00:01<00:00,  6.00it/s][1/6] extract embeddings: 100%|██████████| 8/8 [00:01<00:00,  8.04it/s]Traceback (most recent call last):
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
-    finalizer()
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
-    res = self._callback(*self._args, **self._kwargs)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
-    rmtree(tempdir)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
-    _rmtree_safe_fd(fd, path, onerror)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
-    onerror(os.unlink, fullname, sys.exc_info())
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
-    os.unlink(entry.name, dir_fd=topfd)
-OSError: [Errno 16] Device or resource busy: '.nfs0000000000187abb0000018a'
-[1/6] extract embeddings: 100%|██████████| 8/8 [00:01<00:00,  5.32it/s]
-[NeMo I 2025-04-14 22:23:22 clustering_diarizer:281] Subsegmentation for embedding extraction: scale1, diarization_output/speaker_outputs/subsegments_scale1.json
-[NeMo I 2025-04-14 22:23:22 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-14 22:23:22 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-14 22:23:22 collections:880] Dataset successfully loaded with 574 items and total duration provided from manifest is  0.40 hours.
-[NeMo I 2025-04-14 22:23:22 collections:886] # 574 files loaded accounting to # 1 labels
-[2/6] extract embeddings:   0%|          | 0/9 [00:00<?, ?it/s][2/6] extract embeddings:  11%|█         | 1/9 [00:00<00:01,  6.06it/s][2/6] extract embeddings:  33%|███▎      | 3/9 [00:00<00:00, 11.29it/s][2/6] extract embeddings:  56%|█████▌    | 5/9 [00:00<00:00, 11.89it/s][2/6] extract embeddings:  78%|███████▊  | 7/9 [00:00<00:00, 12.60it/s][2/6] extract embeddings: 100%|██████████| 9/9 [00:00<00:00, 12.81it/s]Traceback (most recent call last):
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
-    finalizer()
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
-    res = self._callback(*self._args, **self._kwargs)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
-    rmtree(tempdir)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
-    _rmtree_safe_fd(fd, path, onerror)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
-    onerror(os.unlink, fullname, sys.exc_info())
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
-    os.unlink(entry.name, dir_fd=topfd)
-OSError: [Errno 16] Device or resource busy: '.nfs00000000001884440000018b'
-[2/6] extract embeddings: 100%|██████████| 9/9 [00:00<00:00, 11.48it/s]
-[NeMo I 2025-04-14 22:23:26 clustering_diarizer:281] Subsegmentation for embedding extraction: scale2, diarization_output/speaker_outputs/subsegments_scale2.json
-[NeMo I 2025-04-14 22:23:26 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-14 22:23:26 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-14 22:23:26 collections:880] Dataset successfully loaded with 718 items and total duration provided from manifest is  0.40 hours.
-[NeMo I 2025-04-14 22:23:26 collections:886] # 718 files loaded accounting to # 1 labels
-[3/6] extract embeddings:   0%|          | 0/12 [00:00<?, ?it/s][3/6] extract embeddings:   8%|▊         | 1/12 [00:00<00:01,  6.67it/s][3/6] extract embeddings:  25%|██▌       | 3/12 [00:00<00:00, 12.01it/s][3/6] extract embeddings:  42%|████▏     | 5/12 [00:00<00:00, 12.79it/s][3/6] extract embeddings:  58%|█████▊    | 7/12 [00:00<00:00, 13.58it/s][3/6] extract embeddings:  75%|███████▌  | 9/12 [00:00<00:00, 13.42it/s][3/6] extract embeddings:  92%|█████████▏| 11/12 [00:00<00:00, 14.18it/s]Traceback (most recent call last):
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
-    finalizer()
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
-    res = self._callback(*self._args, **self._kwargs)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
-    rmtree(tempdir)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
-    _rmtree_safe_fd(fd, path, onerror)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
-    onerror(os.unlink, fullname, sys.exc_info())
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
-    os.unlink(entry.name, dir_fd=topfd)
-OSError: [Errno 16] Device or resource busy: '.nfs00000000001884840000018c'
-[3/6] extract embeddings: 100%|██████████| 12/12 [00:00<00:00, 12.86it/s]
-[NeMo I 2025-04-14 22:23:27 clustering_diarizer:281] Subsegmentation for embedding extraction: scale3, diarization_output/speaker_outputs/subsegments_scale3.json
-[NeMo I 2025-04-14 22:23:28 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-14 22:23:28 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-14 22:23:28 collections:880] Dataset successfully loaded with 958 items and total duration provided from manifest is  0.40 hours.
-[NeMo I 2025-04-14 22:23:28 collections:886] # 958 files loaded accounting to # 1 labels
-[4/6] extract embeddings:   0%|          | 0/15 [00:00<?, ?it/s][4/6] extract embeddings:   7%|▋         | 1/15 [00:00<00:01,  7.07it/s][4/6] extract embeddings:  20%|██        | 3/15 [00:00<00:00, 13.05it/s][4/6] extract embeddings:  33%|███▎      | 5/15 [00:00<00:00, 14.09it/s][4/6] extract embeddings:  47%|████▋     | 7/15 [00:00<00:00, 16.08it/s][4/6] extract embeddings:  60%|██████    | 9/15 [00:00<00:00, 16.52it/s][4/6] extract embeddings:  73%|███████▎  | 11/15 [00:00<00:00, 16.95it/s][4/6] extract embeddings:  87%|████████▋ | 13/15 [00:00<00:00, 16.77it/s][4/6] extract embeddings: 100%|██████████| 15/15 [00:00<00:00, 16.74it/s]Traceback (most recent call last):
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
-    finalizer()
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
-    res = self._callback(*self._args, **self._kwargs)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
-    rmtree(tempdir)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
-    _rmtree_safe_fd(fd, path, onerror)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
-    onerror(os.unlink, fullname, sys.exc_info())
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
-    os.unlink(entry.name, dir_fd=topfd)
-OSError: [Errno 16] Device or resource busy: '.nfs000000000018853a0000018d'
-[4/6] extract embeddings: 100%|██████████| 15/15 [00:00<00:00, 15.09it/s]
-[NeMo I 2025-04-14 22:23:29 clustering_diarizer:281] Subsegmentation for embedding extraction: scale4, diarization_output/speaker_outputs/subsegments_scale4.json
-[NeMo I 2025-04-14 22:23:29 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-14 22:23:29 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-14 22:23:29 collections:880] Dataset successfully loaded with 1437 items and total duration provided from manifest is  0.40 hours.
-[NeMo I 2025-04-14 22:23:29 collections:886] # 1437 files loaded accounting to # 1 labels
-[5/6] extract embeddings:   0%|          | 0/23 [00:00<?, ?it/s][5/6] extract embeddings:   4%|▍         | 1/23 [00:00<00:03,  7.10it/s][5/6] extract embeddings:  17%|█▋        | 4/23 [00:00<00:01, 15.05it/s][5/6] extract embeddings:  26%|██▌       | 6/23 [00:00<00:01, 15.16it/s][5/6] extract embeddings:  35%|███▍      | 8/23 [00:00<00:00, 15.46it/s][5/6] extract embeddings:  43%|████▎     | 10/23 [00:00<00:00, 15.58it/s][5/6] extract embeddings:  52%|█████▏    | 12/23 [00:00<00:00, 16.32it/s][5/6] extract embeddings:  61%|██████    | 14/23 [00:00<00:00, 17.18it/s][5/6] extract embeddings:  70%|██████▉   | 16/23 [00:00<00:00, 17.55it/s][5/6] extract embeddings:  78%|███████▊  | 18/23 [00:01<00:00, 17.84it/s][5/6] extract embeddings:  87%|████████▋ | 20/23 [00:01<00:00, 18.23it/s][5/6] extract embeddings:  96%|█████████▌| 22/23 [00:01<00:00, 18.02it/s]Traceback (most recent call last):
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
-    finalizer()
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
-    res = self._callback(*self._args, **self._kwargs)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
-    rmtree(tempdir)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
-    _rmtree_safe_fd(fd, path, onerror)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
-    onerror(os.unlink, fullname, sys.exc_info())
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
-    os.unlink(entry.name, dir_fd=topfd)
-OSError: [Errno 16] Device or resource busy: '.nfs00000000001883440000018e'
-[5/6] extract embeddings: 100%|██████████| 23/23 [00:01<00:00, 16.46it/s]
-[NeMo I 2025-04-14 22:23:44 clustering_diarizer:281] Subsegmentation for embedding extraction: scale5, diarization_output/speaker_outputs/subsegments_scale5.json
-[NeMo I 2025-04-14 22:23:44 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-14 22:23:44 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-14 22:23:44 collections:880] Dataset successfully loaded with 2875 items and total duration provided from manifest is  0.40 hours.
-[NeMo I 2025-04-14 22:23:44 collections:886] # 2875 files loaded accounting to # 1 labels
-[6/6] extract embeddings:   0%|          | 0/45 [00:00<?, ?it/s][6/6] extract embeddings:   2%|▏         | 1/45 [00:00<00:06,  6.80it/s][6/6] extract embeddings:   9%|▉         | 4/45 [00:00<00:02, 14.87it/s][6/6] extract embeddings:  13%|█▎        | 6/45 [00:00<00:02, 16.26it/s][6/6] extract embeddings:  18%|█▊        | 8/45 [00:00<00:02, 17.06it/s][6/6] extract embeddings:  24%|██▍       | 11/45 [00:00<00:01, 18.17it/s][6/6] extract embeddings:  31%|███       | 14/45 [00:00<00:01, 19.00it/s][6/6] extract embeddings:  36%|███▌      | 16/45 [00:00<00:01, 19.21it/s][6/6] extract embeddings:  40%|████      | 18/45 [00:01<00:01, 19.41it/s][6/6] extract embeddings:  44%|████▍     | 20/45 [00:01<00:01, 19.44it/s][6/6] extract embeddings:  49%|████▉     | 22/45 [00:01<00:01, 19.46it/s][6/6] extract embeddings:  53%|█████▎    | 24/45 [00:01<00:01, 19.60it/s][6/6] extract embeddings:  58%|█████▊    | 26/45 [00:01<00:00, 19.21it/s][6/6] extract embeddings:  62%|██████▏   | 28/45 [00:01<00:00, 18.50it/s][6/6] extract embeddings:  67%|██████▋   | 30/45 [00:01<00:00, 18.50it/s][6/6] extract embeddings:  73%|███████▎  | 33/45 [00:01<00:00, 19.04it/s][6/6] extract embeddings:  78%|███████▊  | 35/45 [00:01<00:00, 18.92it/s][6/6] extract embeddings:  84%|████████▍ | 38/45 [00:02<00:00, 19.36it/s][6/6] extract embeddings:  91%|█████████ | 41/45 [00:02<00:00, 19.71it/s][6/6] extract embeddings:  98%|█████████▊| 44/45 [00:02<00:00, 19.86it/s]Traceback (most recent call last):
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 300, in _run_finalizers
-    finalizer()
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 224, in __call__
-    res = self._callback(*self._args, **self._kwargs)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/multiprocessing/util.py", line 133, in _remove_temp_dir
-    rmtree(tempdir)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 725, in rmtree
-    _rmtree_safe_fd(fd, path, onerror)
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 681, in _rmtree_safe_fd
-    onerror(os.unlink, fullname, sys.exc_info())
-  File "/nlp/scr/askhan1/miniconda3/envs/nemo/lib/python3.10/shutil.py", line 679, in _rmtree_safe_fd
-    os.unlink(entry.name, dir_fd=topfd)
-OSError: [Errno 16] Device or resource busy: '.nfs0000000000186ace0000018f'
-[6/6] extract embeddings: 100%|██████████| 45/45 [00:02<00:00, 18.38it/s]
-clustering:   0%|          | 0/1 [00:00<?, ?it/s]clustering: 100%|██████████| 1/1 [00:00<00:00,  1.28it/s]clustering: 100%|██████████| 1/1 [00:00<00:00,  1.28it/s]
-[NeMo I 2025-04-14 22:23:50 clustering_diarizer:451] Outputs are saved in /juice2/scr2/askhan1/github_files/edm25-nemo-classroom-diarization/diarization_output directory
-[NeMo I 2025-04-14 22:23:50 der:208] 
-          diarization error rate    total  ...  confusion          
-                               %           ...                    %
-    item                                   ...                     
-    2                   3.394605  631.151  ...  20.877057  3.307775
-    TOTAL               3.394605  631.151  ...  20.877057  3.307775
+[NeMo I 2025-04-17 02:19:16 features:305] PADDING: 16
+[NeMo I 2025-04-17 02:19:17 save_restore_connector:275] Model EncDecSpeakerLabelModel was successfully restored from /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo.
+[NeMo W 2025-04-17 02:19:17 clustering_diarizer:398] Deleting previous clustering diarizer outputs.
+[NeMo I 2025-04-17 02:19:17 speaker_utils:92] Number of files to diarize: 4
+[NeMo I 2025-04-17 02:19:17 clustering_diarizer:281] Subsegmentation for embedding extraction: scale0, diarization_output/speaker_outputs/subsegments_scale0.json
+[NeMo I 2025-04-17 02:19:17 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-04-17 02:19:17 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-04-17 02:19:17 collections:880] Dataset successfully loaded with 1590 items and total duration provided from manifest is  0.22 hours.
+[NeMo I 2025-04-17 02:19:17 collections:886] # 1590 files loaded accounting to # 1 labels
+[1/6] extract embeddings:   0%|          | 0/25 [00:00<?, ?it/s][1/6] extract embeddings:   4%|▍         | 1/25 [00:02<00:54,  2.28s/it][1/6] extract embeddings:  16%|█▌        | 4/25 [00:02<00:09,  2.18it/s][1/6] extract embeddings:  28%|██▊       | 7/25 [00:02<00:04,  4.26it/s][1/6] extract embeddings:  40%|████      | 10/25 [00:02<00:02,  6.72it/s][1/6] extract embeddings:  52%|█████▏    | 13/25 [00:02<00:01,  9.48it/s][1/6] extract embeddings:  64%|██████▍   | 16/25 [00:02<00:00, 12.27it/s][1/6] extract embeddings:  76%|███████▌  | 19/25 [00:02<00:00, 14.88it/s][1/6] extract embeddings:  88%|████████▊ | 22/25 [00:03<00:00, 17.20it/s][1/6] extract embeddings: 100%|██████████| 25/25 [00:03<00:00,  7.82it/s]
+[NeMo I 2025-04-17 02:19:20 clustering_diarizer:281] Subsegmentation for embedding extraction: scale1, diarization_output/speaker_outputs/subsegments_scale1.json
+[NeMo I 2025-04-17 02:19:20 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-04-17 02:19:20 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-04-17 02:19:20 collections:880] Dataset successfully loaded with 1599 items and total duration provided from manifest is  0.22 hours.
+[NeMo I 2025-04-17 02:19:20 collections:886] # 1599 files loaded accounting to # 1 labels
+[2/6] extract embeddings:   0%|          | 0/25 [00:00<?, ?it/s][2/6] extract embeddings:   4%|▍         | 1/25 [00:01<00:32,  1.36s/it][2/6] extract embeddings:  16%|█▌        | 4/25 [00:01<00:06,  3.49it/s][2/6] extract embeddings:  28%|██▊       | 7/25 [00:01<00:02,  6.50it/s][2/6] extract embeddings:  40%|████      | 10/25 [00:01<00:01,  9.84it/s][2/6] extract embeddings:  56%|█████▌    | 14/25 [00:01<00:00, 14.16it/s][2/6] extract embeddings:  72%|███████▏  | 18/25 [00:01<00:00, 17.86it/s][2/6] extract embeddings:  84%|████████▍ | 21/25 [00:02<00:00, 20.14it/s][2/6] extract embeddings: 100%|██████████| 25/25 [00:02<00:00, 23.10it/s][2/6] extract embeddings: 100%|██████████| 25/25 [00:02<00:00, 11.25it/s]
+[NeMo I 2025-04-17 02:19:22 clustering_diarizer:281] Subsegmentation for embedding extraction: scale2, diarization_output/speaker_outputs/subsegments_scale2.json
+[NeMo I 2025-04-17 02:19:23 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-04-17 02:19:23 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-04-17 02:19:23 collections:880] Dataset successfully loaded with 1621 items and total duration provided from manifest is  0.23 hours.
+[NeMo I 2025-04-17 02:19:23 collections:886] # 1621 files loaded accounting to # 1 labels
+[3/6] extract embeddings:   0%|          | 0/26 [00:00<?, ?it/s][3/6] extract embeddings:   4%|▍         | 1/26 [00:01<00:27,  1.12s/it][3/6] extract embeddings:  19%|█▉        | 5/26 [00:01<00:04,  5.17it/s][3/6] extract embeddings:  35%|███▍      | 9/26 [00:01<00:01,  9.45it/s][3/6] extract embeddings:  46%|████▌     | 12/26 [00:01<00:01, 12.61it/s][3/6] extract embeddings:  58%|█████▊    | 15/26 [00:01<00:00, 15.29it/s][3/6] extract embeddings:  69%|██████▉   | 18/26 [00:01<00:00, 18.24it/s][3/6] extract embeddings:  85%|████████▍ | 22/26 [00:01<00:00, 21.77it/s][3/6] extract embeddings: 100%|██████████| 26/26 [00:01<00:00, 25.07it/s][3/6] extract embeddings: 100%|██████████| 26/26 [00:01<00:00, 13.14it/s]
+[NeMo I 2025-04-17 02:19:25 clustering_diarizer:281] Subsegmentation for embedding extraction: scale3, diarization_output/speaker_outputs/subsegments_scale3.json
+[NeMo I 2025-04-17 02:19:25 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-04-17 02:19:25 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-04-17 02:19:25 collections:880] Dataset successfully loaded with 1693 items and total duration provided from manifest is  0.24 hours.
+[NeMo I 2025-04-17 02:19:25 collections:886] # 1693 files loaded accounting to # 1 labels
+[4/6] extract embeddings:   0%|          | 0/27 [00:00<?, ?it/s][4/6] extract embeddings:   4%|▎         | 1/27 [00:01<00:29,  1.12s/it][4/6] extract embeddings:  19%|█▊        | 5/27 [00:01<00:04,  5.21it/s][4/6] extract embeddings:  33%|███▎      | 9/27 [00:01<00:01,  9.60it/s][4/6] extract embeddings:  44%|████▍     | 12/27 [00:01<00:01, 12.73it/s][4/6] extract embeddings:  59%|█████▉    | 16/27 [00:01<00:00, 16.90it/s][4/6] extract embeddings:  74%|███████▍  | 20/27 [00:01<00:00, 20.55it/s][4/6] extract embeddings:  85%|████████▌ | 23/27 [00:01<00:00, 22.04it/s][4/6] extract embeddings:  96%|█████████▋| 26/27 [00:01<00:00, 23.37it/s][4/6] extract embeddings: 100%|██████████| 27/27 [00:01<00:00, 13.53it/s]
+[NeMo I 2025-04-17 02:19:27 clustering_diarizer:281] Subsegmentation for embedding extraction: scale4, diarization_output/speaker_outputs/subsegments_scale4.json
+[NeMo I 2025-04-17 02:19:27 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-04-17 02:19:27 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-04-17 02:19:27 collections:880] Dataset successfully loaded with 1901 items and total duration provided from manifest is  0.26 hours.
+[NeMo I 2025-04-17 02:19:27 collections:886] # 1901 files loaded accounting to # 1 labels
+[5/6] extract embeddings:   0%|          | 0/30 [00:00<?, ?it/s][5/6] extract embeddings:   3%|▎         | 1/30 [00:01<00:32,  1.12s/it][5/6] extract embeddings:  17%|█▋        | 5/30 [00:01<00:04,  5.21it/s][5/6] extract embeddings:  30%|███       | 9/30 [00:01<00:02,  9.58it/s][5/6] extract embeddings:  43%|████▎     | 13/30 [00:01<00:01, 13.87it/s][5/6] extract embeddings:  57%|█████▋    | 17/30 [00:01<00:00, 17.58it/s][5/6] extract embeddings:  67%|██████▋   | 20/30 [00:01<00:00, 19.77it/s][5/6] extract embeddings:  80%|████████  | 24/30 [00:01<00:00, 22.94it/s][5/6] extract embeddings:  93%|█████████▎| 28/30 [00:01<00:00, 25.51it/s][5/6] extract embeddings: 100%|██████████| 30/30 [00:02<00:00, 14.53it/s]
+[NeMo I 2025-04-17 02:19:29 clustering_diarizer:281] Subsegmentation for embedding extraction: scale5, diarization_output/speaker_outputs/subsegments_scale5.json
+[NeMo I 2025-04-17 02:19:29 clustering_diarizer:337] Extracting embeddings for Diarization
+[NeMo I 2025-04-17 02:19:29 collections:879] Filtered duration for loading collection is  0.00 hours.
+[NeMo I 2025-04-17 02:19:29 collections:880] Dataset successfully loaded with 2935 items and total duration provided from manifest is  0.31 hours.
+[NeMo I 2025-04-17 02:19:29 collections:886] # 2935 files loaded accounting to # 1 labels
+[6/6] extract embeddings:   0%|          | 0/46 [00:00<?, ?it/s][6/6] extract embeddings:   2%|▏         | 1/46 [00:01<00:50,  1.12s/it][6/6] extract embeddings:  11%|█         | 5/46 [00:01<00:07,  5.26it/s][6/6] extract embeddings:  20%|█▉        | 9/46 [00:01<00:03,  9.72it/s][6/6] extract embeddings:  28%|██▊       | 13/46 [00:01<00:02, 14.01it/s][6/6] extract embeddings:  37%|███▋      | 17/46 [00:01<00:01, 17.85it/s][6/6] extract embeddings:  46%|████▌     | 21/46 [00:01<00:01, 21.23it/s][6/6] extract embeddings:  54%|█████▍    | 25/46 [00:01<00:00, 24.36it/s][6/6] extract embeddings:  63%|██████▎   | 29/46 [00:01<00:00, 27.36it/s][6/6] extract embeddings:  72%|███████▏  | 33/46 [00:02<00:00, 28.67it/s][6/6] extract embeddings:  80%|████████  | 37/46 [00:02<00:00, 30.25it/s][6/6] extract embeddings:  89%|████████▉ | 41/46 [00:02<00:00, 32.56it/s][6/6] extract embeddings:  98%|█████████▊| 45/46 [00:02<00:00, 33.14it/s][6/6] extract embeddings: 100%|██████████| 46/46 [00:02<00:00, 18.56it/s]
+clustering:   0%|          | 0/4 [00:00<?, ?it/s]clustering:  25%|██▌       | 1/4 [00:00<00:01,  1.93it/s]clustering:  50%|█████     | 2/4 [00:00<00:00,  2.82it/s]clustering:  75%|███████▌  | 3/4 [00:00<00:00,  3.70it/s]clustering: 100%|██████████| 4/4 [00:01<00:00,  3.75it/s]clustering: 100%|██████████| 4/4 [00:01<00:00,  3.36it/s]
+[NeMo I 2025-04-17 02:19:33 clustering_diarizer:451] Outputs are saved in /juice2/scr2/askhan1/post_edm_inference/edm25-nemo-classroom-diarization/diarization_output directory
+[NeMo I 2025-04-17 02:19:34 der:208] 
+                       diarization error rate     total  ...  confusion          
+                                            %            ...                    %
+    item                                                 ...                     
+    Longfellow-Block-2              83.349045   444.120  ...   7.010011  1.578405
+    Harker-ES                       85.443593  2178.782  ...  29.908793  1.372730
+    Harker-MN                       82.256305   366.767  ...  12.326173  3.360764
+    Longfellow-Block-1              83.318622   492.417  ...  17.402884  3.534176
+    TOTAL                           84.540228  3482.086  ...  66.647861  1.914021
     
-    [2 rows x 10 columns]
-[NeMo I 2025-04-14 22:23:50 der:209] Cumulative Results for collar 0.25 sec and ignore_overlap True: 
-    | FA: 0.0006 | MISS: 0.0003 | CER: 0.0331 | DER: 0.0339 | Spk. Count Acc. 1.0000
+    [5 rows x 10 columns]
+[NeMo I 2025-04-17 02:19:34 der:209] Cumulative Results for collar 0.25 sec and ignore_overlap True: 
+    | FA: 0.0120 | MISS: 0.8143 | CER: 0.0191 | DER: 0.8454 | Spk. Count Acc. 1.0000
     
