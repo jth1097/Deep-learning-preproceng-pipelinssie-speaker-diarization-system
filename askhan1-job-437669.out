@@ -1,0 +1,59 @@
+slurm submission log: 2025-04-17 22:54:58.592702
+created following sbatch script: 
+
+###############################
+
+#!/bin/bash
+
+#SBATCH --account=nlp
+#SBATCH --cpus-per-task=16
+#SBATCH --gres=gpu:1
+#SBATCH --job-name=askhan1-job-437669
+#SBATCH --mem=100G
+#SBATCH --nodelist=jagupard38
+#SBATCH --open-mode=append
+#SBATCH --output=askhan1-job-437669.out
+#SBATCH --partition=jag-hi
+#SBATCH --time=14-0
+
+# activate your desired anaconda environment
+
+
+# cd to working directory
+cd .
+
+# launch commands
+srun --unbuffered run_as_child_processes './run.sh'
+
+###############################
+
+submission to slurm complete!
+
+
+###############################
+slurm submission output
+
+Submitted batch job 10222358
+
+
+
+###############################
+
+###############################
+start time: 2025-04-17 22:55:01.487345
+machine: jagupard38
+conda env: nemo
+###############################
+running following processes
+
+	./run.sh
+
+
+###############################
+command outputs: 
+
+
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 10222358 ON jagupard38 CANCELLED AT 2025-04-17T22:55:15 ***
+slurmstepd: error: *** STEP 10222358.0 ON jagupard38 CANCELLED AT 2025-04-17T22:55:15 ***
+Received SIGTERM, job terminating, terminating 1 processes...
