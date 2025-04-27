@@ -18,7 +18,7 @@ The system is optimized for the teacher-student interaction patterns typically f
    ```bash
    git clone https://github.com/EduNLP/edm25-nemo-classroom-diarization.git
    cd edm25-nemo-classroom-diarization
-   
+   rm -rf NeMo
    # Clone the NVIDIA NeMo repository
    git clone https://github.com/NVIDIA/NeMo.git
    
