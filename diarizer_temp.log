@@ -1,227 +1,0 @@
-[rank: 0] Seed set to 42
-[NeMo I 2025-04-24 18:15:36 offline_diar_infer:41] Hydra config: name: ClusterDiarizer
-    num_workers: 1
-    sample_rate: 16000
-    batch_size: 64
-    device: null
-    verbose: true
-    diarizer:
-      manifest_filepath: /nlp/scr/askhan1/CLASSBANK/CLASSBANK_test_manifest_2s_noisy.json
-      out_dir: diarization_output
-      oracle_vad: false
-      collar: 0.25
-      ignore_overlap: true
-      vad:
-        model_path: null
-        external_vad_manifest: ./vad_outs.json
-        parameters:
-          window_length_in_sec: 0.63
-          shift_length_in_sec: 0.01
-          smoothing: false
-          overlap: 0.5
-          onset: 0.9
-          offset: 0.5
-          pad_onset: 0
-          pad_offset: 0
-          min_duration_on: 0
-          min_duration_off: 0.6
-          filter_speech_first: true
-      speaker_embeddings:
-        model_path: titanet_large
-        parameters:
-          window_length_in_sec:
-          - 3.0
-          - 2.5
-          - 2.0
-          - 1.5
-          - 1.0
-          - 0.5
-          shift_length_in_sec:
-          - 1.5
-          - 1.25
-          - 1.0
-          - 0.75
-          - 0.5
-          - 0.25
-          multiscale_weights:
-          - 1
-          - 1
-          - 1
-          - 1
-          - 1
-          - 1
-          save_embeddings: false
-      clustering:
-        parameters:
-          oracle_num_speakers: true
-          max_num_speakers: 8
-          enhanced_count_thres: 80
-          max_rp_threshold: 0.25
-          sparse_search_volume: 30
-          maj_vote_spk_count: false
-          chunk_cluster_count: 50
-          embeddings_per_chunk: 10000
-      msdd_model:
-        model_path: null
-        parameters:
-          use_speaker_model_from_ckpt: true
-          infer_batch_size: 25
-          sigmoid_threshold:
-          - 0.7
-          seq_eval_mode: false
-          split_infer: true
-          diar_window_length: 50
-          overlap_infer_spk_limit: 5
-      asr:
-        model_path: stt_en_quartznet15x5
-        parameters:
-          asr_based_vad: false
-          asr_based_vad_threshold: 1.0
-          asr_batch_size: null
-          decoder_delay_in_sec: null
-          word_ts_anchor_offset: null
-          word_ts_anchor_pos: start
-          fix_word_ts_with_VAD: false
-          colored_text: false
-          print_time: true
-          break_lines: false
-        ctc_decoder_parameters:
-          pretrained_language_model: null
-          beam_width: 256
-          alpha: 2.0
-          beta: 1.5
-        realigning_lm_parameters:
-          arpa_language_model: null
-          min_number_of_words: 1
-          max_number_of_words: 25
-          logprob_diff_threshold: 1.2
-    
-[NeMo I 2025-04-24 18:15:36 clustering_diarizer:150] Loading pretrained titanet_large model from NGC
-[NeMo I 2025-04-24 18:15:36 cloud:58] Found existing object /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo.
-[NeMo I 2025-04-24 18:15:36 cloud:64] Re-using file from: /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo
-[NeMo I 2025-04-24 18:15:36 common:826] Instantiating model from pre-trained checkpoint
-[NeMo W 2025-04-24 18:15:37 modelPT:176] If you intend to do training or fine-tuning, please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
-    Train config : 
-    manifest_filepath: /manifests/combined_fisher_swbd_voxceleb12_librispeech/train.json
-    sample_rate: 16000
-    labels: null
-    batch_size: 64
-    shuffle: true
-    is_tarred: false
-    tarred_audio_filepaths: null
-    tarred_shard_strategy: scatter
-    augmentor:
-      noise:
-        manifest_path: /manifests/noise/rir_noise_manifest.json
-        prob: 0.5
-        min_snr_db: 0
-        max_snr_db: 15
-      speed:
-        prob: 0.5
-        sr: 16000
-        resample_type: kaiser_fast
-        min_speed_rate: 0.95
-        max_speed_rate: 1.05
-    num_workers: 15
-    pin_memory: true
-    
-[NeMo W 2025-04-24 18:15:37 modelPT:183] If you intend to do validation, please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
-    Validation config : 
-    manifest_filepath: /manifests/combined_fisher_swbd_voxceleb12_librispeech/dev.json
-    sample_rate: 16000
-    labels: null
-    batch_size: 128
-    shuffle: false
-    num_workers: 15
-    pin_memory: true
-    
-[NeMo I 2025-04-24 18:15:37 features:305] PADDING: 16
-[NeMo I 2025-04-24 18:15:37 save_restore_connector:275] Model EncDecSpeakerLabelModel was successfully restored from /sailhome/askhan1/.cache/torch/NeMo/NeMo_2.2.0/titanet-l/11ba0924fdf87c049e339adbf6899d48/titanet-l.nemo.
-[NeMo W 2025-04-24 18:15:37 clustering_diarizer:398] Deleting previous clustering diarizer outputs.
-[NeMo I 2025-04-24 18:15:37 speaker_utils:92] Number of files to diarize: 33
-[NeMo I 2025-04-24 18:15:37 clustering_diarizer:281] Subsegmentation for embedding extraction: scale0, diarization_output/speaker_outputs/subsegments_scale0.json
-[NeMo I 2025-04-24 18:15:38 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-24 18:15:38 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-24 18:15:38 collections:880] Dataset successfully loaded with 6001 items and total duration provided from manifest is  3.66 hours.
-[NeMo I 2025-04-24 18:15:38 collections:886] # 6001 files loaded accounting to # 1 labels
-[1/6] extract embeddings:   0%|          | 0/94 [00:00<?, ?it/s][1/6] extract embeddings:   1%|          | 1/94 [00:01<01:43,  1.11s/it][1/6] extract embeddings:   4%|▍         | 4/94 [00:01<00:22,  3.97it/s][1/6] extract embeddings:   6%|▋         | 6/94 [00:01<00:16,  5.34it/s][1/6] extract embeddings:  10%|▉         | 9/94 [00:01<00:09,  8.61it/s][1/6] extract embeddings:  13%|█▎        | 12/94 [00:01<00:06, 11.84it/s][1/6] extract embeddings:  16%|█▌        | 15/94 [00:01<00:05, 15.03it/s][1/6] extract embeddings:  19%|█▉        | 18/94 [00:01<00:04, 17.59it/s][1/6] extract embeddings:  22%|██▏       | 21/94 [00:02<00:03, 19.92it/s][1/6] extract embeddings:  26%|██▌       | 24/94 [00:02<00:03, 21.46it/s][1/6] extract embeddings:  29%|██▊       | 27/94 [00:02<00:02, 23.03it/s][1/6] extract embeddings:  32%|███▏      | 30/94 [00:02<00:02, 24.08it/s][1/6] extract embeddings:  35%|███▌      | 33/94 [00:02<00:02, 25.50it/s][1/6] extract embeddings:  38%|███▊      | 36/94 [00:02<00:02, 25.23it/s][1/6] extract embeddings:  41%|████▏     | 39/94 [00:02<00:02, 25.19it/s][1/6] extract embeddings:  45%|████▍     | 42/94 [00:02<00:02, 25.50it/s][1/6] extract embeddings:  48%|████▊     | 45/94 [00:02<00:01, 25.80it/s][1/6] extract embeddings:  51%|█████     | 48/94 [00:03<00:01, 25.90it/s][1/6] extract embeddings:  54%|█████▍    | 51/94 [00:03<00:01, 25.51it/s][1/6] extract embeddings:  57%|█████▋    | 54/94 [00:03<00:01, 25.42it/s][1/6] extract embeddings:  61%|██████    | 57/94 [00:03<00:01, 25.10it/s][1/6] extract embeddings:  64%|██████▍   | 60/94 [00:03<00:01, 25.64it/s][1/6] extract embeddings:  67%|██████▋   | 63/94 [00:03<00:01, 26.20it/s][1/6] extract embeddings:  70%|███████   | 66/94 [00:03<00:01, 26.62it/s][1/6] extract embeddings:  73%|███████▎  | 69/94 [00:03<00:00, 26.79it/s][1/6] extract embeddings:  77%|███████▋  | 72/94 [00:03<00:00, 27.28it/s][1/6] extract embeddings:  80%|███████▉  | 75/94 [00:04<00:00, 26.37it/s][1/6] extract embeddings:  83%|████████▎ | 78/94 [00:04<00:01, 10.12it/s][1/6] extract embeddings:  86%|████████▌ | 81/94 [00:04<00:01, 12.58it/s][1/6] extract embeddings:  89%|████████▉ | 84/94 [00:05<00:00, 14.89it/s][1/6] extract embeddings:  93%|█████████▎| 87/94 [00:05<00:00, 17.03it/s][1/6] extract embeddings:  97%|█████████▋| 91/94 [00:05<00:00, 20.13it/s][1/6] extract embeddings: 100%|██████████| 94/94 [00:05<00:00, 17.37it/s]
-[NeMo I 2025-04-24 18:15:43 clustering_diarizer:281] Subsegmentation for embedding extraction: scale1, diarization_output/speaker_outputs/subsegments_scale1.json
-[NeMo I 2025-04-24 18:15:44 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-24 18:15:44 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-24 18:15:44 collections:880] Dataset successfully loaded with 6845 items and total duration provided from manifest is  3.71 hours.
-[NeMo I 2025-04-24 18:15:44 collections:886] # 6845 files loaded accounting to # 1 labels
-[2/6] extract embeddings:   0%|          | 0/107 [00:00<?, ?it/s][2/6] extract embeddings:   1%|          | 1/107 [00:00<00:11,  9.01it/s][2/6] extract embeddings:   4%|▎         | 4/107 [00:00<00:05, 20.05it/s][2/6] extract embeddings:   7%|▋         | 8/107 [00:00<00:03, 25.43it/s][2/6] extract embeddings:  10%|█         | 11/107 [00:00<00:03, 26.96it/s][2/6] extract embeddings:  14%|█▍        | 15/107 [00:00<00:03, 28.05it/s][2/6] extract embeddings:  17%|█▋        | 18/107 [00:00<00:03, 28.63it/s][2/6] extract embeddings:  20%|█▉        | 21/107 [00:00<00:02, 28.87it/s][2/6] extract embeddings:  23%|██▎       | 25/107 [00:00<00:02, 30.21it/s][2/6] extract embeddings:  27%|██▋       | 29/107 [00:01<00:02, 30.34it/s][2/6] extract embeddings:  31%|███       | 33/107 [00:01<00:02, 29.35it/s][2/6] extract embeddings:  34%|███▎      | 36/107 [00:01<00:02, 29.47it/s][2/6] extract embeddings:  36%|███▋      | 39/107 [00:01<00:02, 29.60it/s][2/6] extract embeddings:  40%|████      | 43/107 [00:01<00:02, 30.25it/s][2/6] extract embeddings:  44%|████▍     | 47/107 [00:01<00:02, 29.87it/s][2/6] extract embeddings:  47%|████▋     | 50/107 [00:01<00:01, 29.87it/s][2/6] extract embeddings:  50%|█████     | 54/107 [00:01<00:01, 29.93it/s][2/6] extract embeddings:  54%|█████▍    | 58/107 [00:02<00:01, 30.21it/s][2/6] extract embeddings:  58%|█████▊    | 62/107 [00:02<00:01, 30.08it/s][2/6] extract embeddings:  62%|██████▏   | 66/107 [00:02<00:01, 30.03it/s][2/6] extract embeddings:  65%|██████▌   | 70/107 [00:02<00:01, 29.86it/s][2/6] extract embeddings:  68%|██████▊   | 73/107 [00:02<00:01, 29.82it/s][2/6] extract embeddings:  72%|███████▏  | 77/107 [00:02<00:00, 30.14it/s][2/6] extract embeddings:  76%|███████▌  | 81/107 [00:02<00:00, 30.66it/s][2/6] extract embeddings:  79%|███████▉  | 85/107 [00:02<00:00, 30.64it/s][2/6] extract embeddings:  83%|████████▎ | 89/107 [00:03<00:00, 30.92it/s][2/6] extract embeddings:  87%|████████▋ | 93/107 [00:03<00:00, 31.19it/s][2/6] extract embeddings:  91%|█████████ | 97/107 [00:03<00:00, 30.95it/s][2/6] extract embeddings:  94%|█████████▍| 101/107 [00:03<00:00, 30.89it/s][2/6] extract embeddings:  98%|█████████▊| 105/107 [00:03<00:00, 30.65it/s][2/6] extract embeddings: 100%|██████████| 107/107 [00:03<00:00, 29.34it/s]
-[NeMo I 2025-04-24 18:15:47 clustering_diarizer:281] Subsegmentation for embedding extraction: scale2, diarization_output/speaker_outputs/subsegments_scale2.json
-[NeMo I 2025-04-24 18:15:47 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-24 18:15:48 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-24 18:15:48 collections:880] Dataset successfully loaded with 8195 items and total duration provided from manifest is  3.78 hours.
-[NeMo I 2025-04-24 18:15:48 collections:886] # 8195 files loaded accounting to # 1 labels
-[3/6] extract embeddings:   0%|          | 0/129 [00:00<?, ?it/s][3/6] extract embeddings:   1%|          | 1/129 [00:00<00:13,  9.40it/s][3/6] extract embeddings:   4%|▍         | 5/129 [00:00<00:04, 25.96it/s][3/6] extract embeddings:   7%|▋         | 9/129 [00:00<00:04, 29.23it/s][3/6] extract embeddings:  10%|█         | 13/129 [00:00<00:03, 30.51it/s][3/6] extract embeddings:  13%|█▎        | 17/129 [00:00<00:03, 31.12it/s][3/6] extract embeddings:  16%|█▋        | 21/129 [00:00<00:03, 31.74it/s][3/6] extract embeddings:  19%|█▉        | 25/129 [00:00<00:03, 32.07it/s][3/6] extract embeddings:  22%|██▏       | 29/129 [00:00<00:03, 32.48it/s][3/6] extract embeddings:  26%|██▌       | 33/129 [00:01<00:03, 31.86it/s][3/6] extract embeddings:  29%|██▊       | 37/129 [00:01<00:02, 31.56it/s][3/6] extract embeddings:  32%|███▏      | 41/129 [00:01<00:02, 31.77it/s][3/6] extract embeddings:  35%|███▍      | 45/129 [00:01<00:02, 31.07it/s][3/6] extract embeddings:  38%|███▊      | 49/129 [00:01<00:02, 31.52it/s][3/6] extract embeddings:  41%|████      | 53/129 [00:01<00:02, 32.49it/s][3/6] extract embeddings:  44%|████▍     | 57/129 [00:01<00:02, 30.93it/s][3/6] extract embeddings:  47%|████▋     | 61/129 [00:01<00:02, 31.66it/s][3/6] extract embeddings:  50%|█████     | 65/129 [00:02<00:01, 32.72it/s][3/6] extract embeddings:  53%|█████▎    | 69/129 [00:02<00:01, 32.27it/s][3/6] extract embeddings:  57%|█████▋    | 73/129 [00:02<00:01, 32.53it/s][3/6] extract embeddings:  60%|█████▉    | 77/129 [00:02<00:01, 33.52it/s][3/6] extract embeddings:  63%|██████▎   | 81/129 [00:02<00:01, 33.75it/s][3/6] extract embeddings:  66%|██████▌   | 85/129 [00:02<00:01, 33.78it/s][3/6] extract embeddings:  69%|██████▉   | 89/129 [00:02<00:01, 32.78it/s][3/6] extract embeddings:  72%|███████▏  | 93/129 [00:02<00:01, 33.01it/s][3/6] extract embeddings:  75%|███████▌  | 97/129 [00:03<00:00, 32.95it/s][3/6] extract embeddings:  78%|███████▊  | 101/129 [00:03<00:00, 32.19it/s][3/6] extract embeddings:  81%|████████▏ | 105/129 [00:03<00:00, 32.58it/s][3/6] extract embeddings:  84%|████████▍ | 109/129 [00:03<00:00, 32.62it/s][3/6] extract embeddings:  88%|████████▊ | 113/129 [00:03<00:00, 33.19it/s][3/6] extract embeddings:  91%|█████████ | 117/129 [00:03<00:00, 33.45it/s][3/6] extract embeddings:  94%|█████████▍| 121/129 [00:03<00:00, 32.72it/s][3/6] extract embeddings:  97%|█████████▋| 125/129 [00:03<00:00, 31.79it/s][3/6] extract embeddings: 100%|██████████| 129/129 [00:04<00:00, 31.30it/s][3/6] extract embeddings: 100%|██████████| 129/129 [00:04<00:00, 31.61it/s]
-[NeMo I 2025-04-24 18:15:52 clustering_diarizer:281] Subsegmentation for embedding extraction: scale3, diarization_output/speaker_outputs/subsegments_scale3.json
-[NeMo I 2025-04-24 18:15:52 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-24 18:15:52 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-24 18:15:52 collections:880] Dataset successfully loaded with 10495 items and total duration provided from manifest is  3.87 hours.
-[NeMo I 2025-04-24 18:15:52 collections:886] # 10495 files loaded accounting to # 1 labels
-[4/6] extract embeddings:   0%|          | 0/164 [00:00<?, ?it/s][4/6] extract embeddings:   1%|          | 1/164 [00:00<00:17,  9.53it/s][4/6] extract embeddings:   3%|▎         | 5/164 [00:00<00:05, 26.61it/s][4/6] extract embeddings:   5%|▌         | 9/164 [00:00<00:05, 30.59it/s][4/6] extract embeddings:   8%|▊         | 13/164 [00:00<00:04, 33.51it/s][4/6] extract embeddings:  10%|█         | 17/164 [00:00<00:04, 34.98it/s][4/6] extract embeddings:  13%|█▎        | 21/164 [00:00<00:04, 33.88it/s][4/6] extract embeddings:  15%|█▌        | 25/164 [00:00<00:03, 34.98it/s][4/6] extract embeddings:  18%|█▊        | 29/164 [00:00<00:03, 33.79it/s][4/6] extract embeddings:  20%|██        | 33/164 [00:01<00:03, 33.05it/s][4/6] extract embeddings:  23%|██▎       | 37/164 [00:01<00:03, 34.54it/s][4/6] extract embeddings:  25%|██▌       | 41/164 [00:01<00:03, 35.65it/s][4/6] extract embeddings:  27%|██▋       | 45/164 [00:01<00:03, 34.71it/s][4/6] extract embeddings:  30%|██▉       | 49/164 [00:01<00:03, 34.50it/s][4/6] extract embeddings:  33%|███▎      | 54/164 [00:01<00:02, 36.70it/s][4/6] extract embeddings:  35%|███▌      | 58/164 [00:01<00:03, 34.60it/s][4/6] extract embeddings:  38%|███▊      | 62/164 [00:01<00:02, 35.65it/s][4/6] extract embeddings:  40%|████      | 66/164 [00:01<00:02, 35.36it/s][4/6] extract embeddings:  43%|████▎     | 70/164 [00:02<00:02, 35.04it/s][4/6] extract embeddings:  45%|████▌     | 74/164 [00:02<00:02, 34.31it/s][4/6] extract embeddings:  48%|████▊     | 78/164 [00:02<00:02, 35.66it/s][4/6] extract embeddings:  51%|█████     | 83/164 [00:02<00:02, 36.40it/s][4/6] extract embeddings:  53%|█████▎    | 87/164 [00:02<00:02, 35.29it/s][4/6] extract embeddings:  55%|█████▌    | 91/164 [00:02<00:02, 35.24it/s][4/6] extract embeddings:  58%|█████▊    | 95/164 [00:02<00:01, 35.02it/s][4/6] extract embeddings:  60%|██████    | 99/164 [00:02<00:01, 35.22it/s][4/6] extract embeddings:  63%|██████▎   | 103/164 [00:02<00:01, 34.56it/s][4/6] extract embeddings:  65%|██████▌   | 107/164 [00:03<00:01, 34.04it/s][4/6] extract embeddings:  68%|██████▊   | 111/164 [00:03<00:01, 33.70it/s][4/6] extract embeddings:  70%|███████   | 115/164 [00:03<00:01, 34.00it/s][4/6] extract embeddings:  73%|███████▎  | 119/164 [00:03<00:01, 35.07it/s][4/6] extract embeddings:  75%|███████▌  | 123/164 [00:03<00:01, 35.37it/s][4/6] extract embeddings:  78%|███████▊  | 128/164 [00:03<00:00, 36.92it/s][4/6] extract embeddings:  80%|████████  | 132/164 [00:03<00:00, 35.97it/s][4/6] extract embeddings:  83%|████████▎ | 136/164 [00:03<00:00, 35.51it/s][4/6] extract embeddings:  85%|████████▌ | 140/164 [00:04<00:00, 35.11it/s][4/6] extract embeddings:  88%|████████▊ | 144/164 [00:04<00:00, 36.41it/s][4/6] extract embeddings:  90%|█████████ | 148/164 [00:04<00:00, 35.42it/s][4/6] extract embeddings:  93%|█████████▎| 152/164 [00:04<00:00, 34.77it/s][4/6] extract embeddings:  95%|█████████▌| 156/164 [00:04<00:00, 33.65it/s][4/6] extract embeddings:  98%|█████████▊| 160/164 [00:04<00:00, 33.41it/s][4/6] extract embeddings: 100%|██████████| 164/164 [00:04<00:00, 34.06it/s][4/6] extract embeddings: 100%|██████████| 164/164 [00:04<00:00, 34.27it/s]
-[NeMo I 2025-04-24 18:15:57 clustering_diarizer:281] Subsegmentation for embedding extraction: scale4, diarization_output/speaker_outputs/subsegments_scale4.json
-[NeMo I 2025-04-24 18:15:57 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-24 18:15:57 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-24 18:15:57 collections:880] Dataset successfully loaded with 15387 items and total duration provided from manifest is  3.99 hours.
-[NeMo I 2025-04-24 18:15:57 collections:886] # 15387 files loaded accounting to # 1 labels
-[5/6] extract embeddings:   0%|          | 0/241 [00:00<?, ?it/s][5/6] extract embeddings:   0%|          | 1/241 [00:00<00:24,  9.77it/s][5/6] extract embeddings:   2%|▏         | 6/241 [00:00<00:07, 31.49it/s][5/6] extract embeddings:   5%|▍         | 11/241 [00:00<00:06, 36.89it/s][5/6] extract embeddings:   6%|▌         | 15/241 [00:00<00:06, 35.72it/s][5/6] extract embeddings:   8%|▊         | 19/241 [00:00<00:06, 36.56it/s][5/6] extract embeddings:  10%|▉         | 24/241 [00:00<00:05, 38.83it/s][5/6] extract embeddings:  12%|█▏        | 30/241 [00:00<00:04, 42.84it/s][5/6] extract embeddings:  15%|█▍        | 35/241 [00:00<00:04, 41.65it/s][5/6] extract embeddings:  17%|█▋        | 40/241 [00:01<00:04, 40.26it/s][5/6] extract embeddings:  19%|█▊        | 45/241 [00:01<00:05, 38.97it/s][5/6] extract embeddings:  20%|██        | 49/241 [00:01<00:05, 37.40it/s][5/6] extract embeddings:  22%|██▏       | 54/241 [00:01<00:04, 38.98it/s][5/6] extract embeddings:  24%|██▍       | 58/241 [00:01<00:04, 38.66it/s][5/6] extract embeddings:  26%|██▌       | 63/241 [00:01<00:04, 39.00it/s][5/6] extract embeddings:  28%|██▊       | 67/241 [00:01<00:04, 38.07it/s][5/6] extract embeddings:  29%|██▉       | 71/241 [00:01<00:04, 37.66it/s][5/6] extract embeddings:  31%|███       | 75/241 [00:01<00:04, 37.16it/s][5/6] extract embeddings:  33%|███▎      | 79/241 [00:02<00:04, 36.77it/s][5/6] extract embeddings:  35%|███▍      | 84/241 [00:02<00:04, 38.95it/s][5/6] extract embeddings:  37%|███▋      | 88/241 [00:02<00:04, 37.77it/s][5/6] extract embeddings:  39%|███▊      | 93/241 [00:02<00:03, 39.61it/s][5/6] extract embeddings:  40%|████      | 97/241 [00:02<00:03, 39.53it/s][5/6] extract embeddings:  42%|████▏     | 101/241 [00:02<00:03, 39.19it/s][5/6] extract embeddings:  44%|████▍     | 106/241 [00:02<00:03, 40.38it/s][5/6] extract embeddings:  46%|████▌     | 111/241 [00:02<00:03, 39.95it/s][5/6] extract embeddings:  48%|████▊     | 116/241 [00:03<00:03, 40.93it/s][5/6] extract embeddings:  50%|█████     | 121/241 [00:03<00:02, 40.32it/s][5/6] extract embeddings:  52%|█████▏    | 126/241 [00:03<00:02, 38.89it/s][5/6] extract embeddings:  54%|█████▍    | 131/241 [00:03<00:02, 39.82it/s][5/6] extract embeddings:  56%|█████▌    | 135/241 [00:03<00:02, 39.33it/s][5/6] extract embeddings:  58%|█████▊    | 140/241 [00:03<00:02, 41.49it/s][5/6] extract embeddings:  60%|██████    | 145/241 [00:03<00:02, 43.58it/s][5/6] extract embeddings:  62%|██████▏   | 150/241 [00:03<00:02, 41.61it/s][5/6] extract embeddings:  64%|██████▍   | 155/241 [00:03<00:02, 40.16it/s][5/6] extract embeddings:  66%|██████▋   | 160/241 [00:04<00:02, 40.35it/s][5/6] extract embeddings:  68%|██████▊   | 165/241 [00:04<00:01, 41.98it/s][5/6] extract embeddings:  71%|███████   | 170/241 [00:04<00:01, 40.61it/s][5/6] extract embeddings:  73%|███████▎  | 175/241 [00:04<00:01, 40.57it/s][5/6] extract embeddings:  75%|███████▍  | 180/241 [00:04<00:01, 40.66it/s][5/6] extract embeddings:  77%|███████▋  | 185/241 [00:04<00:01, 39.73it/s][5/6] extract embeddings:  78%|███████▊  | 189/241 [00:04<00:01, 39.28it/s][5/6] extract embeddings:  80%|████████  | 193/241 [00:04<00:01, 38.78it/s][5/6] extract embeddings:  82%|████████▏ | 197/241 [00:05<00:01, 38.52it/s][5/6] extract embeddings:  84%|████████▍ | 202/241 [00:05<00:00, 39.55it/s][5/6] extract embeddings:  86%|████████▌ | 207/241 [00:05<00:00, 41.08it/s][5/6] extract embeddings:  88%|████████▊ | 212/241 [00:05<00:00, 42.12it/s][5/6] extract embeddings:  90%|█████████ | 217/241 [00:05<00:00, 41.24it/s][5/6] extract embeddings:  92%|█████████▏| 222/241 [00:05<00:00, 41.67it/s][5/6] extract embeddings:  94%|█████████▍| 227/241 [00:05<00:00, 41.67it/s][5/6] extract embeddings:  96%|█████████▋| 232/241 [00:05<00:00, 42.54it/s][5/6] extract embeddings:  98%|█████████▊| 237/241 [00:05<00:00, 39.21it/s][5/6] extract embeddings: 100%|██████████| 241/241 [00:06<00:00, 23.15it/s][5/6] extract embeddings: 100%|██████████| 241/241 [00:06<00:00, 37.59it/s]
-[NeMo I 2025-04-24 18:16:04 clustering_diarizer:281] Subsegmentation for embedding extraction: scale5, diarization_output/speaker_outputs/subsegments_scale5.json
-[NeMo I 2025-04-24 18:16:05 clustering_diarizer:337] Extracting embeddings for Diarization
-[NeMo I 2025-04-24 18:16:05 collections:879] Filtered duration for loading collection is  0.00 hours.
-[NeMo I 2025-04-24 18:16:05 collections:880] Dataset successfully loaded with 30695 items and total duration provided from manifest is  4.16 hours.
-[NeMo I 2025-04-24 18:16:05 collections:886] # 30695 files loaded accounting to # 1 labels
-[6/6] extract embeddings:   0%|          | 0/480 [00:00<?, ?it/s][6/6] extract embeddings:   0%|          | 1/480 [00:00<04:34,  1.75it/s][6/6] extract embeddings:   1%|▏         | 6/480 [00:00<00:42, 11.12it/s][6/6] extract embeddings:   2%|▏         | 11/480 [00:00<00:24, 19.25it/s][6/6] extract embeddings:   4%|▎         | 17/480 [00:00<00:16, 28.32it/s][6/6] extract embeddings:   5%|▍         | 22/480 [00:01<00:13, 33.39it/s][6/6] extract embeddings:   6%|▌         | 28/480 [00:01<00:11, 40.11it/s][6/6] extract embeddings:   7%|▋         | 33/480 [00:01<00:10, 42.03it/s][6/6] extract embeddings:   8%|▊         | 39/480 [00:01<00:09, 45.43it/s][6/6] extract embeddings:   9%|▉         | 45/480 [00:01<00:09, 47.90it/s][6/6] extract embeddings:  11%|█         | 51/480 [00:01<00:09, 46.61it/s][6/6] extract embeddings:  12%|█▏        | 57/480 [00:01<00:08, 47.66it/s][6/6] extract embeddings:  13%|█▎        | 62/480 [00:01<00:09, 44.08it/s][6/6] extract embeddings:  14%|█▍        | 67/480 [00:01<00:09, 45.54it/s][6/6] extract embeddings:  15%|█▌        | 73/480 [00:02<00:08, 47.42it/s][6/6] extract embeddings:  16%|█▋        | 79/480 [00:02<00:08, 48.79it/s][6/6] extract embeddings:  18%|█▊        | 85/480 [00:02<00:07, 50.63it/s][6/6] extract embeddings:  19%|█▉        | 91/480 [00:02<00:07, 51.61it/s][6/6] extract embeddings:  20%|██        | 97/480 [00:02<00:07, 52.18it/s][6/6] extract embeddings:  21%|██▏       | 103/480 [00:02<00:07, 51.59it/s][6/6] extract embeddings:  23%|██▎       | 109/480 [00:02<00:07, 51.10it/s][6/6] extract embeddings:  24%|██▍       | 115/480 [00:02<00:07, 52.09it/s][6/6] extract embeddings:  25%|██▌       | 121/480 [00:02<00:07, 50.05it/s][6/6] extract embeddings:  26%|██▋       | 127/480 [00:03<00:06, 50.63it/s][6/6] extract embeddings:  28%|██▊       | 133/480 [00:03<00:06, 51.21it/s][6/6] extract embeddings:  29%|██▉       | 139/480 [00:03<00:07, 46.89it/s][6/6] extract embeddings:  30%|███       | 145/480 [00:03<00:06, 48.46it/s][6/6] extract embeddings:  31%|███▏      | 150/480 [00:03<00:07, 47.07it/s][6/6] extract embeddings:  32%|███▏      | 155/480 [00:03<00:06, 46.93it/s][6/6] extract embeddings:  33%|███▎      | 160/480 [00:03<00:06, 47.51it/s][6/6] extract embeddings:  35%|███▍      | 166/480 [00:03<00:06, 48.97it/s][6/6] extract embeddings:  36%|███▌      | 171/480 [00:04<00:06, 47.52it/s][6/6] extract embeddings:  37%|███▋      | 176/480 [00:04<00:06, 47.15it/s][6/6] extract embeddings:  38%|███▊      | 182/480 [00:04<00:06, 48.12it/s][6/6] extract embeddings:  39%|███▉      | 187/480 [00:04<00:06, 48.49it/s][6/6] extract embeddings:  40%|████      | 193/480 [00:04<00:05, 49.61it/s][6/6] extract embeddings:  41%|████▏     | 199/480 [00:04<00:05, 49.92it/s][6/6] extract embeddings:  42%|████▎     | 204/480 [00:04<00:05, 47.62it/s][6/6] extract embeddings:  44%|████▎     | 209/480 [00:04<00:05, 46.27it/s][6/6] extract embeddings:  45%|████▍     | 215/480 [00:04<00:05, 48.21it/s][6/6] extract embeddings:  46%|████▌     | 220/480 [00:05<00:05, 48.60it/s][6/6] extract embeddings:  47%|████▋     | 226/480 [00:05<00:05, 49.79it/s][6/6] extract embeddings:  48%|████▊     | 232/480 [00:05<00:04, 51.58it/s][6/6] extract embeddings:  50%|████▉     | 238/480 [00:05<00:04, 49.28it/s][6/6] extract embeddings:  51%|█████     | 243/480 [00:05<00:04, 49.16it/s][6/6] extract embeddings:  52%|█████▏    | 249/480 [00:05<00:04, 49.93it/s][6/6] extract embeddings:  53%|█████▎    | 255/480 [00:05<00:04, 51.05it/s][6/6] extract embeddings:  54%|█████▍    | 261/480 [00:05<00:04, 48.19it/s][6/6] extract embeddings:  55%|█████▌    | 266/480 [00:05<00:04, 46.51it/s][6/6] extract embeddings:  56%|█████▋    | 271/480 [00:06<00:04, 46.20it/s][6/6] extract embeddings:  58%|█████▊    | 277/480 [00:06<00:04, 48.20it/s][6/6] extract embeddings:  59%|█████▉    | 283/480 [00:06<00:04, 48.75it/s][6/6] extract embeddings:  60%|██████    | 288/480 [00:06<00:03, 48.12it/s][6/6] extract embeddings:  61%|██████    | 293/480 [00:06<00:04, 46.05it/s][6/6] extract embeddings:  62%|██████▏   | 298/480 [00:06<00:04, 45.40it/s][6/6] extract embeddings:  63%|██████▎   | 303/480 [00:06<00:04, 43.54it/s][6/6] extract embeddings:  64%|██████▍   | 308/480 [00:06<00:03, 44.81it/s][6/6] extract embeddings:  65%|██████▌   | 313/480 [00:07<00:03, 44.77it/s][6/6] extract embeddings:  66%|██████▋   | 318/480 [00:07<00:03, 44.94it/s][6/6] extract embeddings:  67%|██████▋   | 323/480 [00:07<00:03, 42.73it/s][6/6] extract embeddings:  68%|██████▊   | 328/480 [00:07<00:03, 41.63it/s][6/6] extract embeddings:  69%|██████▉   | 333/480 [00:07<00:03, 42.94it/s][6/6] extract embeddings:  70%|███████   | 338/480 [00:07<00:03, 43.83it/s][6/6] extract embeddings:  71%|███████▏  | 343/480 [00:07<00:03, 45.31it/s][6/6] extract embeddings:  72%|███████▎  | 348/480 [00:07<00:03, 43.91it/s][6/6] extract embeddings:  74%|███████▎  | 353/480 [00:07<00:02, 43.05it/s][6/6] extract embeddings:  75%|███████▍  | 358/480 [00:08<00:02, 44.56it/s][6/6] extract embeddings:  76%|███████▌  | 363/480 [00:08<00:02, 42.39it/s][6/6] extract embeddings:  77%|███████▋  | 368/480 [00:08<00:02, 40.73it/s][6/6] extract embeddings:  78%|███████▊  | 373/480 [00:08<00:02, 39.61it/s][6/6] extract embeddings:  79%|███████▉  | 378/480 [00:08<00:02, 40.51it/s][6/6] extract embeddings:  80%|███████▉  | 383/480 [00:08<00:02, 40.98it/s][6/6] extract embeddings:  81%|████████  | 388/480 [00:08<00:02, 41.18it/s][6/6] extract embeddings:  82%|████████▏ | 393/480 [00:08<00:02, 40.81it/s][6/6] extract embeddings:  83%|████████▎ | 398/480 [00:09<00:02, 39.96it/s][6/6] extract embeddings:  84%|████████▍ | 403/480 [00:09<00:01, 42.02it/s][6/6] extract embeddings:  85%|████████▌ | 408/480 [00:09<00:01, 40.66it/s][6/6] extract embeddings:  86%|████████▌ | 413/480 [00:09<00:01, 39.85it/s][6/6] extract embeddings:  87%|████████▋ | 418/480 [00:09<00:01, 38.84it/s][6/6] extract embeddings:  88%|████████▊ | 423/480 [00:09<00:01, 40.02it/s][6/6] extract embeddings:  89%|████████▉ | 428/480 [00:09<00:01, 38.67it/s][6/6] extract embeddings:  90%|█████████ | 432/480 [00:09<00:01, 38.83it/s][6/6] extract embeddings:  91%|█████████ | 437/480 [00:10<00:01, 40.67it/s][6/6] extract embeddings:  92%|█████████▏| 442/480 [00:10<00:00, 40.44it/s][6/6] extract embeddings:  93%|█████████▎| 447/480 [00:10<00:00, 39.67it/s][6/6] extract embeddings:  94%|█████████▍| 451/480 [00:10<00:00, 38.18it/s][6/6] extract embeddings:  95%|█████████▍| 455/480 [00:10<00:00, 37.41it/s][6/6] extract embeddings:  96%|█████████▌| 459/480 [00:10<00:00, 37.39it/s][6/6] extract embeddings:  97%|█████████▋| 464/480 [00:10<00:00, 38.45it/s][6/6] extract embeddings:  98%|█████████▊| 468/480 [00:10<00:00, 38.36it/s][6/6] extract embeddings:  99%|█████████▊| 473/480 [00:10<00:00, 39.81it/s][6/6] extract embeddings:  99%|█████████▉| 477/480 [00:11<00:00, 39.39it/s][6/6] extract embeddings: 100%|██████████| 480/480 [00:11<00:00, 43.00it/s]
-clustering:   0%|          | 0/33 [00:00<?, ?it/s]clustering:   3%|▎         | 1/33 [00:00<00:18,  1.70it/s]clustering:   6%|▌         | 2/33 [00:01<00:16,  1.85it/s]
-Clustering Sub-Windows:   0%|          | 0/2 [00:00<?, ?window/s][A
-Clustering Sub-Windows:  50%|█████     | 1/2 [00:01<00:01,  1.85s/window][A
-Clustering Sub-Windows: 100%|██████████| 2/2 [00:02<00:00,  1.11window/s][A
-Clustering Sub-Windows: 3window [00:03,  1.34s/window]                   [AClustering Sub-Windows: 100%|██████████| 2/2 [00:04<00:00,  2.09s/window]
-clustering:   9%|▉         | 3/33 [00:06<01:21,  2.71s/it]clustering:  12%|█▏        | 4/33 [00:06<00:51,  1.78s/it]clustering:  15%|█▌        | 5/33 [00:07<00:34,  1.24s/it]clustering:  18%|█▊        | 6/33 [00:07<00:25,  1.04it/s]clustering:  21%|██        | 7/33 [00:07<00:19,  1.30it/s]clustering:  24%|██▍       | 8/33 [00:08<00:16,  1.48it/s]clustering:  27%|██▋       | 9/33 [00:08<00:13,  1.74it/s]clustering:  30%|███       | 10/33 [00:08<00:11,  2.04it/s]clustering:  33%|███▎      | 11/33 [00:09<00:08,  2.69it/s]clustering:  39%|███▉      | 13/33 [00:09<00:05,  3.78it/s]clustering:  42%|████▏     | 14/33 [00:10<00:07,  2.68it/s]clustering:  45%|████▌     | 15/33 [00:10<00:06,  2.92it/s]clustering:  48%|████▊     | 16/33 [00:10<00:06,  2.50it/s]clustering:  55%|█████▍    | 18/33 [00:11<00:04,  3.36it/s]clustering:  64%|██████▎   | 21/33 [00:11<00:02,  5.32it/s]clustering:  70%|██████▉   | 23/33 [00:11<00:01,  5.67it/s]clustering:  73%|███████▎  | 24/33 [00:12<00:01,  4.57it/s]clustering:  76%|███████▌  | 25/33 [00:12<00:01,  4.96it/s]clustering:  82%|████████▏ | 27/33 [00:12<00:01,  5.43it/s]clustering:  85%|████████▍ | 28/33 [00:12<00:01,  4.20it/s]clustering:  88%|████████▊ | 29/33 [00:13<00:00,  4.47it/s]clustering:  91%|█████████ | 30/33 [00:13<00:00,  3.46it/s]clustering:  94%|█████████▍| 31/33 [00:14<00:00,  3.26it/s]clustering:  97%|█████████▋| 32/33 [00:14<00:00,  2.84it/s]clustering: 100%|██████████| 33/33 [00:14<00:00,  3.24it/s]clustering: 100%|██████████| 33/33 [00:14<00:00,  2.25it/s]
-[NeMo I 2025-04-24 18:16:32 clustering_diarizer:451] Outputs are saved in /juice2/scr2/askhan1/post_edm_inference/edm25-nemo-classroom-diarization/diarization_output directory
-[NeMo I 2025-04-24 18:16:36 der:208] 
-                    diarization error rate      total  ...   confusion           
-                                         %             ...                      %
-    item                                               ...                       
-    2                             8.559434    631.151  ...   22.922946   3.631927
-    aids                         84.863672    630.735  ...   16.934919   2.684950
-    19                           19.763679   2483.683  ...    0.000000   0.000000
-    3004lv03                     47.785729    458.101  ...   44.493040   9.712496
-    6008us305                    75.554028    436.976  ...   30.142049   6.897873
-    6013us104                    54.096201    413.835  ...  108.865116  26.306406
-    6024us404                    65.780632    422.670  ...   89.645092  21.209239
-    1002lv02                     75.906777    478.799  ...   86.567060  18.080042
-    1003lv02                     76.590476    422.093  ...  145.868983  34.558494
-    dec08i                       68.438442    418.801  ...    0.000000   0.000000
-    dec08h                       87.837752    231.701  ...    0.000000   0.000000
-    nov23k                       98.490236    284.151  ...    0.000000   0.000000
-    nov23f                       91.315358    474.124  ...   39.557009   8.343178
-    nov29a                       69.864484    331.170  ...    0.000000   0.000000
-    nov29e                       82.725671    233.572  ...    0.000000   0.000000
-    dec01f                       78.155646    489.513  ...   37.445025   7.649444
-    area1                        97.314539    513.280  ...   13.184969   2.568767
-    area3                       122.823566    311.257  ...    0.000000   0.000000
-    dec15a                       94.592217    195.460  ...    0.000000   0.000000
-    dec06e                       99.176308    398.572  ...    1.625000   0.407706
-    nov28f                       94.912810    484.628  ...   17.623995   3.636603
-    nov28r                       95.100937    129.821  ...    0.000000   0.000000
-    dec14a                       77.460096    327.690  ...    0.000000   0.000000
-    dec14i                       75.100587    430.211  ...    0.000000   0.000000
-    dec13c                       95.513452    497.108  ...   17.266076   3.473305
-    dec13j                       97.786550    498.366  ...    6.723989   1.349207
-    dec13e                       88.912121    504.136  ...   24.707999   4.901058
-    dec13f                       79.762672    514.940  ...   10.412031   2.021989
-    dec21e                       90.131888    482.565  ...    7.239973   1.500310
-    06-JohnBrown                 79.663335    556.285  ...    0.000000   0.000000
-    10-Revolutions               74.276488    509.261  ...    0.000000   0.000000
-    11-PolynomialsA              77.099963    170.830  ...    0.000000   0.000000
-    08-Payment                   85.735019    262.951  ...    0.000000   0.000000
-    TOTAL                        69.648153  15628.436  ...  721.225272   4.614827
-    
-    [34 rows x 10 columns]
-[NeMo I 2025-04-24 18:16:36 der:209] Cumulative Results for collar 0.25 sec and ignore_overlap True: 
-    | FA: 0.0468 | MISS: 0.6035 | CER: 0.0461 | DER: 0.6965 | Spk. Count Acc. 1.0000
-    

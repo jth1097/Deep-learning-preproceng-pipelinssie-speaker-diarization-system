@@ -29,8 +29,8 @@ The system is optimized for the teacher-student interaction patterns typically f
 2. **Download the pretrained checkpoint:**
    ```bash
    mkdir -p checkpoints/w2v2-robust-large-ckpt
-   gdown https://drive.google.com/file/d/1f9mMqzpGaLA2RB0m7dcesxo4deOB_GDq/view?usp=sharing --fuzzy
-   mv ckpt.pt checkpoints/w2v2-robust-large-ckpt/ckpt-1.pt
+   gdown --fuzzy 'https://drive.google.com/file/d/1f9mMqzpGaLA2RB0m7dcesxo4deOB_GDq/view?usp=sharing' -O ckpt.pt
+   mv ckpt.pt checkpoints/w2v2-robust-large-ckpt/
    ```
 
 3. **Prepare audio and manifest files** (see details below)
