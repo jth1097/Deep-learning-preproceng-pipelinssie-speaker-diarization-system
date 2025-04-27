@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RESULTS_FILE="CB_results_all_speaker.txt" # Name of the file where we'll store the summary of FA results
+RESULTS_FILE="DER_results_all_speaker.txt" # Name of the file where we'll store the summary of FA results
 DIARIZER_LOG="diarizer_temp.log" # Temporary log file to capture the diarizer output
 CKPT="/checkpoints/w2v2-robust-large-ckpt/ckpt.pt"
 MANIFEST_FILE="./manifests/test_2s.json"
@@ -82,7 +82,7 @@ done
 echo "All experiments completed. Results stored in ${RESULTS_FILE}."
 
 
-RESULTS_FILE="CB_results_2s.txt" # Name of the file where we'll store the summary of FA results
+RESULTS_FILE="DER_results_2s.txt" # Name of the file where we'll store the summary of FA results
 DIARIZER_LOG="diarizer_temp.log" # Temporary log file to capture the diarizer output
 CKPT="/checkpoints/w2v2-robust-large-ckpt/ckpt.pt"
 MANIFEST_FILE="./manifests/test_all_speaker.json"
@@ -162,3 +162,5 @@ do
 done
 
 echo "All experiments completed. Results stored in ${RESULTS_FILE}."
+
+python fine_best_combination.py
