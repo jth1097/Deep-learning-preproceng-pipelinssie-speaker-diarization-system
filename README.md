@@ -33,7 +33,7 @@ The system is optimized for the teacher-student interaction patterns typically f
    mv ckpt.pt checkpoints/w2v2-robust-large-ckpt/
    ```
 
-3. **Prepare audio and manifest files** (see details below)
+3. **Prepare audio and manifest files** (see details below). If you are looking to replicate results from our paper, you have the download the respective files listed in `manifests/classbank_test_filenames.txt` from [ClassBank](https://class.talkbank.org/).
 
 4. **Adjust paths in `run.sh`** to match your environment
 
