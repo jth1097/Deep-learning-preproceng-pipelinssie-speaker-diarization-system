@@ -1,4 +1,4 @@
-# NeMo Classroom Diarization Pipeline
+# Multistage Speaker Diarization in Noisy Classrooms
 
 A specialized system for classroom speech diarization (identifying who is speaking when) using NVIDIA's NeMo framework, optimized for educational environments.
 
