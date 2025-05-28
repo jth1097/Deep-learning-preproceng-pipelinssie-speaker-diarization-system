@@ -178,7 +178,7 @@ If you use this system in your research, please cite:
 
 ## License
 
-[Your license information]
+[TBD]
 
 ## Contact
 
