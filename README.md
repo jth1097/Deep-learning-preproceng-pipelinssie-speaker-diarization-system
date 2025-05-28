@@ -168,10 +168,10 @@ Results from the diarization pipeline are stored in:
 If you use this system in your research, please cite:
 
 ```
-@inproceedings{yourname2025classroom,
-  title={Classroom Speech Diarization Using NeMo},
-  author={Your Name and Collaborators},
-  booktitle={Proceedings of EDM 2025},
+@article{khan2025multi,
+  title={Multi-Stage Speaker Diarization for Noisy Classrooms},
+  author={Khan, Ali Sartaz and Ogunremi, Tolulope and Attia, Ahmed and Demszky, Dorottya},
+  journal={arXiv preprint arXiv:2505.10879},
   year={2025}
 }
 ```
@@ -182,4 +182,4 @@ If you use this system in your research, please cite:
 
 ## Contact
 
-For questions or issues, please open an issue on GitHub or contact [your email].
+For questions or issues, please open an issue on GitHub or contact [askhan1@stanford.edu].
