@@ -176,10 +176,6 @@ If you use this system in your research, please cite:
 }
 ```
 
-## License
-
-[TBD]
-
 ## Contact
 
 For questions or issues, please open an issue on GitHub or contact [askhan1@stanford.edu].
