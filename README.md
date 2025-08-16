@@ -168,11 +168,12 @@ Results from the diarization pipeline are stored in:
 If you use this system in your research, please cite:
 
 ```
-@article{khan2025multi,
-  title={Multi-Stage Speaker Diarization for Noisy Classrooms},
-  author={Khan, Ali Sartaz and Ogunremi, Tolulope and Attia, Ahmed and Demszky, Dorottya},
-  journal={arXiv preprint arXiv:2505.10879},
-  year={2025}
+@inproceedings{khan2025a,
+  title = {Multi-Stage Speaker Diarization for Noisy Classrooms},
+  year = {2025},
+  doi = {10.5281/zenodo.15870278},
+  author = {Khan, Ali Sartaz and Ogunremi, Tolulope and Attia, Ahmed Adel and Demszky, Dorottya},
+  booktitle = {Proceedings of the 18th International Conference on Educational Data Mining}
 }
 ```
 
