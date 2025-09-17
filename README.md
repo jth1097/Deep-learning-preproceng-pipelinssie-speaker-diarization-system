@@ -9,11 +9,7 @@
 - 해결방안에 대한 구체적인 설명
 
 
-## Pipeline Components (or Architecture)
-- 프로젝트의 구조 설명
-
-
-## Example Input & Output
+## Demo
 - 프로젝트 실행 예시 입출력 제공 
 - 입력 데이터와 출력 결과의 형식 설명
 
@@ -21,10 +17,6 @@
 ## Result & Performance
 - 프로젝트의 결과로써 개선된 성능 평가 지표를 제공  
 - 평가 방법 설명
-
-
-## Folders
-- 폴더 구조 설명
 
 
 ## Installation
