@@ -1,0 +1,15 @@
+source,alpha,onset,offset,FA,MISS,CER,DER,SpkCountAcc
+run_diarization/test_results.txt,0.0,0.9,0.8,1.2868,0.0034,0.3907,1.6809,1.0
+run_diarization/test_results.txt,0.0,0.9,0.7,1.2934,0.0034,0.3907,1.6875,1.0
+run_diarization/test_results.txt,0.0,0.8,0.7,1.2938,0.0034,0.3907,1.6879,1.0
+run_diarization/test_results.txt,0.0,0.9,0.6,1.3053,0.0034,0.3874,1.6962,1.0
+run_diarization/test_results.txt,0.0,0.8,0.6,1.3057,0.0034,0.3874,1.6966,1.0
+run_diarization/test_results.txt,0.0,0.7,0.6,1.3076,0.0034,0.3874,1.6984,1.0
+run_diarization/test_results.txt,0.0,0.9,0.5,1.3076,0.0034,0.3874,1.6984,1.0
+run_diarization/test_results.txt,0.0,0.8,0.5,1.308,0.0034,0.3874,1.6988,1.0
+run_diarization/test_results.txt,0.0,0.7,0.5,1.3099,0.0034,0.3874,1.7007,1.0
+nemo_gpu_run_2025-09-29,0.6,0.55,0.10,1.7913,0.0000,0.1691,1.9604,1.0
+nemo_gpu_run_demucs_output_16k_mono,0.6,0.55,0.10,0.0007,0.0053,0.3109,0.3169,1.0000
+nemo_gpu_run_original_2,0.6,0.55,0.10,0.0007,0.0025,0.0795,0.0827,1.0000
+nemo_gpu_run_original_2wav,0.6,0.55,0.10,0.0007,0.0046,0.0376,0.0429,1.0000
+nemo_gpu_run_demucs_output_16k_mono_tuned,0.45,0.45,0.05,0.0007,0.0321,0.1733,0.2060,1.0000
