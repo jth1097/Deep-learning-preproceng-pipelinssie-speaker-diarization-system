@@ -102,6 +102,7 @@ def main():
     parser.add_argument('--alpha', type=float, default=0.6)
     parser.add_argument('--onset', type=float, default=0.55)
     parser.add_argument('--offset', type=float, default=0.10)
+    parser.add_argument('--device', default='cuda')
     args = parser.parse_args()
 
     project_root = Path(__file__).resolve().parents[1]
@@ -156,7 +157,7 @@ def main():
             '--model',
             'base',
             '--device',
-            'cuda',
+            args.device,
         ],
         cwd=project_root,
     )
@@ -232,7 +233,7 @@ def main():
         backup_audio.unlink()
 
     print(
-        f"Experiment completed: {experiment} (alpha={alpha_str}, onset={onset_str}, offset={offset_str})"
+        f"Experiment completed: {experiment} (alpha={alpha_str}, onset={onset_str}, offset={offset_str}, device={args.device})"
     )
 
 

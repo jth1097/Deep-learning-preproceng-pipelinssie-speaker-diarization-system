@@ -36,3 +36,4 @@ demucs_output_16k_mono,classbank_audio_data/audio/2.wav,True,719.72581,classbank
 original_2,classbank_audio_data/audio/2.wav,True,719.72581,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/2.rttm,True,59,2,718.13
 original_2wav,classbank_audio_data/audio/2.wav,True,719.72575,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/2.rttm,True,57,2,716.06
 demucs_output_16k_mono_tuned,classbank_audio_data/audio/2.wav,True,719.72581,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/2.rttm,True,121,2,694.96
+audiocleaner_20250930,classbank_audio_data/audio/2.wav,True,719.72575,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/2.rttm,True,74,2,668.79
