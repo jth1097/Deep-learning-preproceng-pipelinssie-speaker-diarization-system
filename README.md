@@ -11,9 +11,6 @@
 ## 🔗 기존 프로젝트 및 참고 링크
 - **기존 프로젝트 GitHub:** [jth1097/Deep-learning-preproceng-pipelinssie-speaker-diarization-system](https://github.com/jth1097/Deep-learning-preproceng-pipelinssie-speaker-diarization-system)  
 - **참고 논문:** [EDM 2025 - Multistage Classroom Diarization](https://educationaldatamining.org/edm2025/proceedings/2025.EDM.short-papers.199/)  
-- **참고 아키텍처 구조 예시:**  
-  - [Maccy](https://github.com/p0deje/Maccy?tab=readme-ov-file)  
-  - [OpenVoice](https://github.com/myshell-ai/OpenVoice?tab=readme-ov-file)  
 
 ---
 
