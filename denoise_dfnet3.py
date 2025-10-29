@@ -3,69 +3,71 @@ from __future__ import annotations
 from typing import Optional, Tuple
 
 
+def _match_length(signal, target_len: int):
+    import numpy as np
+    if len(signal) == target_len:
+        return signal
+    if len(signal) > target_len:
+        return signal[:target_len]
+    # pad with zeros
+    pad = target_len - len(signal)
+    return np.pad(signal, (0, pad), mode='constant')
+
+
 def denoise_dfnet3(y, sr: int, enable: bool = True) -> Tuple[Optional[object], str]:
     """
-    Try to denoise 1D audio array using DeepFilterNet3.
+    DeepFilterNet3 denoise wrapper with graceful fallback and length preservation.
 
-    - Prefers native `deepfilternet` package API when available.
-    - Falls back to `df` (DeepFilterNet) API if present.
-    - If neither is available, returns (None, reason).
+    - Tries `deepfilternet` API first; falls back to `df` package API.
+    - Resamples to model SR (typically 48 kHz) and back to `sr`.
+    - Ensures output length matches input length exactly to preserve alignment.
 
-    Input/Output sample rate:
-      - Input is expected at 16 kHz mono.
-      - DeepFilterNet typically runs at 48 kHz; we resample up then back
-        when required. Duration is preserved by the resampler.
-
-    Returns: (y_denoised or None, info)
+    Returns: (y_denoised or None, info string)
     """
     if not enable:
         return None, 'disabled'
 
-    # Lazy imports to keep base runtime light
     try:
-        import numpy as np
+        import numpy as np  # noqa: F401
         import librosa
     except Exception as e:
         return None, f'missing numpy/librosa ({e})'
 
-    # 1) Try official deepfilternet API
+    # 1) Try official deepfilternet package
     try:
         import deepfilternet as dfn
 
         try:
             model = dfn.DeepFilterNet.load_pretrained('deepfilternet3')
         except Exception:
-            # some versions expose `from_pretrained`
             model = dfn.DeepFilterNet.from_pretrained('deepfilternet3')
 
-        # DeepFilterNet commonly expects 48 kHz
         target_sr = getattr(model, 'sample_rate', 48000)
         x = y.astype('float32')
         if sr != target_sr:
             x = librosa.resample(x, orig_sr=sr, target_sr=target_sr)
-        # Enhance
         out = model.enhance(x, sr=target_sr)
         if target_sr != sr:
             out = librosa.resample(out.astype('float32'), orig_sr=target_sr, target_sr=sr)
-        return out.astype('float32'), 'deepfilternet api'
+        out = _match_length(out.astype('float32'), len(y))
+        return out, 'deepfilternet api'
     except Exception:
         pass
 
-    # 2) Fallback to `df` package API (DeepFilterNet)
+    # 2) Fallback to `df` package API
     try:
-        # Known package exposes df.enhance and df.io
         from df.enhance import enhance, init_df
         from df.io import resample as df_resample
 
-        # Initialize default model
         model, df_state, _ = init_df()
-
         target_sr = 48000
         x48 = df_resample(y.astype('float32'), sr_in=sr, sr_out=target_sr)
         out48 = enhance(model, df_state, x48)
         out16 = df_resample(out48.astype('float32'), sr_in=target_sr, sr_out=sr)
-        return out16.astype('float32'), 'df package api'
+        out16 = _match_length(out16.astype('float32'), len(y))
+        return out16, 'df package api'
     except Exception:
         pass
 
     return None, 'DeepFilterNet3 not available'
+

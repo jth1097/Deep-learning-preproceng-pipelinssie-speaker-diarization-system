@@ -70,7 +70,7 @@ kaldiio==2.18.1
 kiwisolver==1.4.8
 lazy_loader==0.4
 Levenshtein==0.27.1
-lhotse==1.31.0
+lhotse==1.31.1
 libcst==1.7.0
 librosa==0.11.0
 lightning==2.4.0
