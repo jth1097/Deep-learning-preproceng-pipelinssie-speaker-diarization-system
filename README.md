@@ -4,13 +4,9 @@
 ## 🧩 프로젝트 한 줄 요약
 **딥러닝 기반 잡음 제거(denoising) + 듀얼 소스 VAD 하이브리드 모델을 통해 실제 교실/회의 환경에서도 DER을 낮춘 고정확도 화자 분리 시스템**
 
----
-
 ## 🔗 기존 프로젝트 및 참고 링크
 - **기존 프로젝트 GitHub:** [nemo-multistage-classroom-diarization](https://github.com/EduNLP/nemo-multistage-classroom-diarization.git)
 - **참고 논문:** [EDM 2025 - Multistage Classroom Diarization](https://educationaldatamining.org/edm2025/proceedings/2025.EDM.short-papers.199/)  
-
----
 
 ## 📘 Overview  
 
@@ -20,9 +16,9 @@
   - 낮은 볼륨의 발화를 소거하거나  
   - 화자의 음색(formant)을 왜곡하는 문제가 존재함.  
 
-### 💡 해결방안  
+### 💡 해결방안  - 뭔가 이상 우리가 한걸 이야기해야할 것 같은 느낌
 본 프로젝트는 다음을 결합한 **다단계 하이브리드 파이프라인**을 제안함.  
-1. **딥러닝 기반 Speech Enhancement (DCCRN, DeepFilterNet 등)**  
+1. **딥러닝 기반 Speech Enhancement (DeepFilterNet)**
    - 잡음 억제 + 화자 음색 보존  
 2. **듀얼 소스 VAD (wav2vec2 + Whisper)**  
    - 소음 환경에서도 명확한 발화 구간 검출  
@@ -30,14 +26,12 @@
    - 깨끗한 오디오를 기반으로 화자 임베딩 품질 향상  
    - DER(Diarization Error Rate) 감소  
 
----
-
-## 🧠 System Pipeline  
+## 🧠 System Pipeline 
 
 ```
 Noisy Audio
      ↓
-[Phase 1] Deep Learning Speech Enhancement
+[Phase 1] Deep Learning Speech Enhancement (DeepFilterNet V3)
      ↓
 [Phase 2] Dual-Source VAD (wav2vec2 + Whisper)
      ↓
@@ -61,7 +55,7 @@ classbank_audio_data/audio/2.wav
 
 ### ⚙️ Output Example
 ```
-diarization_output/2_denoised_diarized.rttm
+diarization_output/pred_rttms/2_denoised_diarized.rttm
 vad_outs.json
 ```
 
@@ -70,8 +64,6 @@ vad_outs.json
 | `.wav` | 입력 오디오 파일 |
 | `.json` | VAD 결과 (음성 구간 정보) |
 | `.rttm` | 화자 분리 결과 (who spoke when) |
-
----
 
 ## 📈 Result & Performance  
 
@@ -86,47 +78,47 @@ DER = (FA + MISS + CER) / Duration
 | CER (Confusion Error Rate) | 발화는 탐지했으나 화자 할당 오류 |
 
 ### 📊 결과
-- 기존 Sainburg 알고리즘 대비 DER 감소
+- 기존 파이프라인 대비 DER 감소
 - Whisper + wav2vec2 병합 시 안정적 발화 검출 향상
-- 저진폭 발화 인식률 상승 및 잡음 환경 강건성 향상  
-
----
+- 잡음 환경 강건성 향상  
 
 ## ⚙️ Installation  
+- OS: linux ubuntu22.04.5 LTS
+- GPU Recommand
 
 ```bash
 # 1. Clone repository
 git clone https://github.com/jth1097/Deep-learning-preproceng-pipelinssie-speaker-diarization-system.git
 cd Deep-learning-preproceng-pipelinssie-speaker-diarization-system
+rm -rf NeMo
+git clone https://github.com/NVIDIA/NeMo.git
 
 # 2. Create and activate virtual environment
 python3 -m venv .venv
 source .venv/bin/activate     # (Windows: .venv\Scripts\activate)
 
 # 3. Install dependencies
+pip install nunpy
+pip install typting-extension
 pip install -r requirements.txt
 
-# 4. (Optional) Install NeMo and PyTorch
-pip install nemo_toolkit[asr]
+# 4. Fail
+./.venv/src/kenlm/python/BuildStandalone.cmake # cmake_minimum_required(VERSION 3.1) => 3.5
+./.venv/src/kenlm/CMakeLists.txt # cmake_minimum_required(VERSION 3.5) => 3.5
+pip install -r requirements.txt
 ```
-
----
 
 ## 🚀 Usage  
 
 ```bash
 # 전체 파이프라인 실행
-bash run.sh
-
-# 또는 Python 스크립트 직접 실행
-python run_diarization.py --input ./classbank_audio_data/audio/2.wav --output ./diarization_output
+chnod +x run.sh
+./run.sh
 ```
 
 - `manifests/test.json` : 오디오 경로 및 메타데이터 목록  
 - `vad_outs.json` : VAD 결과 중간 산출물  
 - `diarization_output` : 최종 화자 분리 결과 저장 폴더  
-
----
 
 ## ⚠️ Common Issues & Solutions  
 
@@ -138,25 +130,21 @@ python run_diarization.py --input ./classbank_audio_data/audio/2.wav --output ./
 | 0 bytes output | ffmpeg 변환 실패 | `ffmpeg -i input.wav -ar 16000 -ac 1 output.wav` 로 재생성 |
 | 메모리 부족 | 딥러닝 모델 메모리 초과 | `--batch_size` 감소 또는 GPU 메모리 증가 필요 |
 
----
 
 ## 🧩 Future Work  
-
 - 딥러닝 전처리 모델 **Fine-tuning** (잡음 포함 vs 제거 데이터 병합 학습)  
 - 라벨링 + Audio-to-Text 연동으로 **시각적 화자 구분 자료 생성**  
 - 실시간 스트리밍 환경 적용 (on-device inference 최적화)
 
----
 
 ## 👥 Team “Alone”
 | 역할 | 이름 |
 |------|------|
-| Team Leader / DL Engineer |  |
-| Research & Evaluation |  |
-| Research & Evaluation |  |
-| Backend / System Integration |  |
+| Researcher |  신홍규 |
+| Researcher |  남경식 |
+| Researcher |  양평화 |
+| Researcher |  장태환 |
 
----
 
 ## 🧾 License  
 This project is for **academic research** purposes under the **Konkuk University Capstone Design (졸업프로젝트)** program.  
