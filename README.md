@@ -9,7 +9,7 @@
 ---
 
 ## 🔗 기존 프로젝트 및 참고 링크
-- **기존 프로젝트 GitHub:** [jth1097/Deep-learning-preproceng-pipelinssie-speaker-diarization-system](https://github.com/jth1097/Deep-learning-preproceng-pipelinssie-speaker-diarization-system)  
+- **기존 프로젝트 GitHub:** [nemo-multistage-classroom-diarization](https://github.com/EduNLP/nemo-multistage-classroom-diarization.git)
 - **참고 논문:** [EDM 2025 - Multistage Classroom Diarization](https://educationaldatamining.org/edm2025/proceedings/2025.EDM.short-papers.199/)  
 
 ---
