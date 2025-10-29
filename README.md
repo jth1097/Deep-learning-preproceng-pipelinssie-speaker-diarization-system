@@ -1,10 +1,8 @@
 # 🎙️ Speaker Diarization Enhancement Using Denoising DL-Model
 **딥러닝 기반 잡음 제거 모델을 활용한 화자 분리 정확도 향상 시스템**
 
----
-
 ## 🧩 프로젝트 한 줄 요약
-> **딥러닝 기반 잡음 제거(denoising) + 듀얼 소스 VAD 하이브리드 모델을 통해 실제 교실/회의 환경에서도 DER을 낮춘 고정확도 화자 분리 시스템**
+**딥러닝 기반 잡음 제거(denoising) + 듀얼 소스 VAD 하이브리드 모델을 통해 실제 교실/회의 환경에서도 DER을 낮춘 고정확도 화자 분리 시스템**
 
 ---
 
