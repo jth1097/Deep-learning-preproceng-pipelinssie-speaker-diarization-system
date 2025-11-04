@@ -106,57 +106,6 @@ pip install -r requirements.txt
 pip install -r requirements.txt
 ```
 
-## ▶️ `run_dl.sh` 실행 환경 & Requirements
-
-### 지원 플랫폼
-- Linux: Ubuntu 22.04 LTS 기준으로 개발 및 테스트됨.
-- Windows: WSL2(Ubuntu 22.04) 권장. 순수 Windows PowerShell에서도 실행 가능하지만 CUDA/FFmpeg 설치가 복잡하므로 Git Bash 또는 WSL 사용을 추천.
-
-### 필수 시스템 구성 요소
-- Git + Git LFS (`git lfs install`) : LFS 오디오/체크포인트를 내려받기 위해 필요.
-- 오디오 툴체인: `ffmpeg`, `sox`, `libsndfile1` (Ubuntu `sudo apt install ffmpeg sox libsndfile1`).
-- 빌드 도구: `cmake (>=3.18)`, `build-essential`, `python3-dev` (Ubuntu `sudo apt install build-essential cmake python3-dev`).
-- Windows 네이티브라면 Chocolatey 등으로 FFmpeg, Git LFS 설치 후 PowerShell을 관리권한으로 실행하세요.
-
-### Python 환경
-- Python 3.10 ~ 3.11 권장 (PyTorch 2.6, NeMo 2.2와 호환).
-- 가상환경 생성 후 의존성 설치:
-  ```bash
-  python -m venv .venv
-  source .venv/bin/activate              # Windows: .venv\Scripts\activate
-  pip install --upgrade pip
-  pip install -r requirements.txt
-  ```
-- DeepFilterNet3 기반 디노이징을 활성화하려면 아래 중 하나를 추가 설치:
-  ```bash
-  pip install deepfilternet              # 공식 DeepFilterNet 패키지
-  # 또는 (fallback)
-  pip install df
-  ```
-  두 패키지 중 하나라도 설치되어 있으면 `run_dl.sh` 실행 시 자동으로 디노이징이 적용됩니다.
-
-### 추가 리소스 준비
-- `NeMo` 리포지토리를 반드시 `./NeMo` 하위에 클론하고, `pip install -r requirements.txt` 내부에서 설치되는 `nemo-toolkit`과 동일한 버전을 유지하세요.
-- VAD 모델 체크포인트: `generate_w2v2_speech_labels/run_vad.py`는 `checkpoints/w2v2.ckpt`를 요구합니다. 팀에서 학습한 모델을 `project_root/checkpoints/w2v2.ckpt` 경로로 복사하거나, 새 모델을 학습해 동일한 이름으로 저장하세요.
-- Whisper/Transformers 모델은 최초 실행 시 Hugging Face/OpenAI에서 자동으로 다운로드됩니다. 방화벽 환경이라면 사전 다운로드 후 `HF_HOME`, `WHISPER_CACHE_DIR` 등을 설정해 오프라인 캐시를 사용하세요.
-- CUDA 실행을 원한다면 NVIDIA Driver + CUDA 12.4 호환 버전을 설치하고, `pip install -r requirements.txt`가 제공하는 `torch==2.6.0`, `torchaudio==2.6.0`이 GPU를 인식하는지 `python -c "import torch; print(torch.cuda.is_available())"`로 확인하세요.
-
-### `run_dl.sh` 실행 순서
-```bash
-# 1. (선택) 실행 권한 부여
-chmod +x run_dl.sh
-
-# 2. 오디오 파일 단일 평가
-./run_dl.sh path/to/audio.wav       # Windows WSL/Git Bash
-# 또는 PowerShell
-bash run_dl.sh path/to/audio.wav
-# 또는 Python 인터페이스
-python scripts/run_diar_experiment.py --audio-file path/to/audio.wav --denoise auto
-```
-- 스크립트는 입력 WAV를 16kHz 모노로 내부 변환 후 DeepFilterNet3 디노이즈 → Wav2Vec2 기반 VAD → Whisper ASR 라벨 → NeMo diarization 순으로 수행합니다.
-- 실행 로그는 `logs/neMo_run_<파일명>_dl.log`, DER 결과는 `reports/der_metrics.csv`, RTTM 출력은 `diarization_output/pred_rttms`에 저장됩니다.
-- 첫 실행 시 모델 다운로드로 인해 시간이 오래 걸릴 수 있으며, GPU 없는 환경에서는 처리 시간이 크게 증가합니다.
-
 ## 🚀 Usage  
 
 ```bash
