@@ -2,3 +2,25 @@
 /vad_output_frames
 /whisper_output_frames
 checkpoints/
+__pycache__/
+*.pyc
+
+# Logs and reports
+*.log
+logs/
+**/logs/
+reports/*.csv
+
+# Audio and heavy data
+*.wav
+*.mp3
+*.flac
+*.m4a
+*.ogg
+*.opus
+*.aac
+*.wma
+classbank_audio_data/
+
+# Generated manifests
+manifests/tmp_*

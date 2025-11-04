@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Simple runner: measure DER for a given audio file by
-# invoking the project pipeline. Usage:
-#   ./run.sh <audio_file>
-# Optionally symlink/alias to `run` for: run <audio_file>
+# Denoised runner: measure DER for a given audio file
+# with DeepFilterNet3 denoising enabled.
+# Usage: ./run_dl.sh <audio_file>
 
 usage() {
   echo "Usage: $0 <audio_file>" >&2
@@ -21,7 +20,6 @@ if [ ! -f "$AUDIO_FILE" ]; then
   exit 2
 fi
 
-# Prefer python if available, else python3
 if command -v python >/dev/null 2>&1; then
   PY=python
 elif command -v python3 >/dev/null 2>&1; then
@@ -31,7 +29,6 @@ else
   exit 3
 fi
 
-# Auto-detect device for Whisper/NeMo (cuda or cpu)
 DEVICE=$($PY - <<'PY'
 try:
     import torch
@@ -42,24 +39,24 @@ PY
 )
 
 EXPERIMENT="$(basename -- "$AUDIO_FILE")"
-EXPERIMENT="${EXPERIMENT%.*}"
+EXPERIMENT="${EXPERIMENT%.*}_dl"
 
-echo "[run] Measuring DER for: $AUDIO_FILE (device: $DEVICE)"
+echo "[run_dl] Measuring DER (denoised) for: $AUDIO_FILE (device: $DEVICE)"
 
 $PY scripts/run_diar_experiment.py \
   --audio-file "$AUDIO_FILE" \
   --experiment "$EXPERIMENT" \
   --device "$DEVICE" \
-  --denoise none
+  --denoise auto
 
-# Summarize results
 DER_CSV="reports/der_metrics.csv"
 if [ -f "$DER_CSV" ]; then
-  echo "[run] Latest DER entry:"
+  echo "[run_dl] Latest DER entry:"
   tail -n 1 "$DER_CSV"
 else
-  echo "[run] DER metrics CSV not found (expected at $DER_CSV)." >&2
+  echo "[run_dl] DER metrics CSV not found (expected at $DER_CSV)." >&2
 fi
 
-echo "[run] Pred RTTM: diarization_output/pred_rttms/2.rttm"
-echo "[run] Log: logs/neMo_run_${EXPERIMENT}.log"
+echo "[run_dl] Pred RTTM: diarization_output/pred_rttms/2.rttm"
+echo "[run_dl] Log: logs/neMo_run_${EXPERIMENT}.log"
+
