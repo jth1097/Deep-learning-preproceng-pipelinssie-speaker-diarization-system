@@ -1,5 +1,6 @@
 ﻿#!/usr/bin/env python
 import argparse
+import sys
 import subprocess
 import shutil
 import re
@@ -7,7 +8,19 @@ import json
 from pathlib import Path
 
 import soundfile as sf
-import librosa
+# Robust librosa import on Windows where soxr DLL may fail to load
+import os, sys
+os.environ.setdefault('LIBROSA_RESAMPLER', 'resampy')
+try:
+    import librosa  # type: ignore
+except Exception:
+    try:
+        import types as _types, importlib  # type: ignore
+        # Provide a benign stub for 'soxr' to avoid DLL import failures
+        sys.modules.setdefault('soxr', _types.SimpleNamespace(__version__='0'))
+        librosa = importlib.import_module('librosa')  # type: ignore
+    except Exception:
+        raise
 
 
 def run(cmd, cwd=None, log_path=None):
@@ -51,12 +64,15 @@ def append_label_summary(project_root: Path, experiment: str, audio_path: Path, 
     duration = len(data) / sr
 
     def parse_rttm(path: Path):
-        if not path.exists():
+        try:
+            if (not path) or (not isinstance(path, Path)) or (not path.exists()) or (not path.is_file()):
+                return False, 0, 0, 0.0
+        except Exception:
             return False, 0, 0, 0.0
         segments = 0
         speakers = set()
         total = 0.0
-        with path.open('r', encoding='utf-8') as fp:
+        with path.open('r', encoding='utf-8', errors='ignore') as fp:
             for line in fp:
                 parts = line.strip().split()
                 if len(parts) < 9:
@@ -149,6 +165,8 @@ def main():
     parser.add_argument('--denoise', default='auto', choices=['auto', 'dfnet3', 'none'])
     parser.add_argument('--rttm-file', default=None, help='Path to reference RTTM (defaults to stem match)')
     parser.add_argument('--whisper-model', default='base')
+    parser.add_argument('--whisper-model-path', default=None, help='Local Whisper model path (.pt or dir)')
+    parser.add_argument('--whisper-cache-dir', default=None, help='Whisper download/cache directory')
     parser.add_argument('--msdd-model', default=None, help='NeMo MSDD model name/path to enable overlap-aware decoding')
     parser.add_argument('--spk-embedder', default='titanet_large', help='Speaker embedding model (titanet_large, ecapa_tdnn, speakerverification_speakernet)')
     args = parser.parse_args()
@@ -201,9 +219,11 @@ def main():
     tmp_manifest = project_root / f'manifests/tmp_{experiment}.jsonl'
     write_single_line_manifest(tmp_manifest, tmp_audio, rttm_path, ns)
 
+    PY = sys.executable or 'python'
+
     run(
         [
-            'python',
+            PY,
             'generate_w2v2_speech_labels/run_vad.py',
             '--manifest_file',
             str(tmp_manifest),
@@ -216,24 +236,26 @@ def main():
         ],
         cwd=project_root,
     )
+    wcmd = [
+        PY,
+        'generate_whisper_speech_labels/whisper_transcribe.py',
+        '--manifest_file',
+        str(tmp_manifest),
+        '--output_dir',
+        'whisper_output_frames',
+        '--model',
+        args.whisper_model,
+        '--device',
+        args.device,
+    ]
+    if args.whisper_model_path:
+        wcmd += ['--model_path', args.whisper_model_path]
+    if args.whisper_cache_dir:
+        wcmd += ['--download_root', args.whisper_cache_dir]
+    run(wcmd, cwd=project_root)
     run(
         [
-            'python',
-            'generate_whisper_speech_labels/whisper_transcribe.py',
-            '--manifest_file',
-            str(tmp_manifest),
-            '--output_dir',
-            'whisper_output_frames',
-            '--model',
-            args.whisper_model,
-            '--device',
-            args.device,
-        ],
-        cwd=project_root,
-    )
-    run(
-        [
-            'python',
+            PY,
             'run_diarization/tune_vad_params.py',
             '--manifest_file',
             str(tmp_manifest),
@@ -257,7 +279,7 @@ def main():
     log_dir.mkdir(exist_ok=True)
     log_path = log_dir / f'neMo_run_{experiment}.log'
     nemo_cmd = [
-        'python',
+        PY,
         'NeMo/offline_diar_infer.py',
         f'diarizer.manifest_filepath={tmp_manifest}',
         'diarizer.out_dir=diarization_output',
@@ -265,7 +287,8 @@ def main():
         'diarizer.vad.external_vad_manifest=vad_outs_abs.json',
         'diarizer.speaker_embeddings.parameters.save_embeddings=False',
         f'diarizer.speaker_embeddings.model_path={args.spk_embedder}',
-        'diarizer.clustering.parameters.oracle_num_speakers=True',
+        # oracle_num_speakers requires num_speakers in the manifest; disable if unknown
+        f"diarizer.clustering.parameters.oracle_num_speakers={'True' if ns is not None else 'False'}",
         'num_workers=0',
         'hydra.job.chdir=false',
     ]

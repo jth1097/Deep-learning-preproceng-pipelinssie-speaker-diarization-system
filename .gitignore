@@ -20,7 +20,9 @@ reports/*.csv
 *.opus
 *.aac
 *.wma
+*.mp4
 classbank_audio_data/
 
 # Generated manifests
 manifests/tmp_*
+models/whisper/*.pt

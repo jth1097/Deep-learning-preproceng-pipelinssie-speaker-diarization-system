@@ -48,6 +48,8 @@ def main():
     parser.add_argument("--manifest_file", type=str, required=True, help="Path to the manifest file (JSONL, with audio_filepath).")
     parser.add_argument("--output_dir", type=str, required=True, help="Directory to save outputs (.asr.json and .npy).")
     parser.add_argument("--model", type=str, default="large-v2", help="Whisper model name (default: large-v2).")
+    parser.add_argument("--model_path", type=str, default=None, help="Path to a local Whisper model (.pt or dir).")
+    parser.add_argument("--download_root", type=str, default=None, help="Directory to cache/download Whisper models.")
     parser.add_argument("--device", type=str, default="cuda", help="Device for Whisper (cuda or cpu).")
     parser.add_argument("--skip_existing", action="store_true", help="Skip files where both outputs already exist.")
     args = parser.parse_args()
@@ -55,12 +57,19 @@ def main():
     manifest_file = args.manifest_file
     output_dir = args.output_dir
     MODEL = args.model
+    MODEL_PATH = args.model_path
+    DL_ROOT = args.download_root
     DEVICE = args.device
 
     os.makedirs(output_dir, exist_ok=True)
 
-    print(f"Loading Whisper model '{MODEL}' on device '{DEVICE}' ...")
-    model = whisper.load_model(MODEL, device=DEVICE)
+    name_or_path = MODEL_PATH if MODEL_PATH else MODEL
+    print(f"Loading Whisper model '{name_or_path}' on device '{DEVICE}' ...")
+    try:
+        model = whisper.load_model(name_or_path, device=DEVICE, download_root=DL_ROOT)
+    except TypeError:
+        # older whisper versions may not support download_root
+        model = whisper.load_model(name_or_path, device=DEVICE)
     fp16 = DEVICE != "cpu"
 
     with open(manifest_file, "r", encoding="utf-8") as mf:
