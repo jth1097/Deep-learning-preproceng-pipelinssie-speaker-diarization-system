@@ -518,3 +518,8 @@ ui_fzwtp_40adb4,classbank_audio_data/audio_tmp/ui_fzwtp_40adb4.wav,True,285.5680
 ui_A230012_96612f,classbank_audio_data/audio_tmp/ui_A230012_96612f.wav,True,874.02669,,False,0,0,0.0,diarization_output/pred_rttms/ui_A230012_96612f.rttm,True,74,5,870.65
 ui_B230115_0dfa69,classbank_audio_data/audio_tmp/ui_B230115_0dfa69.wav,True,1266.34669,,False,0,0,0.0,diarization_output/pred_rttms/ui_B230115_0dfa69.rttm,True,107,7,1241.34
 ui_E230369_476bc6,classbank_audio_data/audio_tmp/ui_E230369_476bc6.wav,True,940.05331,,False,0,0,0.0,diarization_output/pred_rttms/ui_E230369_476bc6.rttm,True,128,6,924.45
+ui_E230369_60fc52,classbank_audio_data/audio_tmp/ui_E230369_60fc52.wav,True,940.05331,,False,0,0,0.0,diarization_output/pred_rttms/ui_E230369_60fc52.rttm,True,142,6,918.92
+ui_D230329_a45ce5,classbank_audio_data/audio_tmp/ui_D230329_a45ce5.wav,True,922.02669,,False,0,0,0.0,diarization_output/pred_rttms/ui_D230329_a45ce5.rttm,True,145,6,882.48
+ui_D230329_2412c9,classbank_audio_data/audio_tmp/ui_D230329_2412c9.wav,True,922.02669,,False,0,0,0.0,diarization_output/pred_rttms/ui_D230329_2412c9.rttm,True,142,6,883.38
+ui_bvyvm_6511e1,classbank_audio_data/audio_tmp/ui_bvyvm_6511e1.wav,True,117.24800,classbank_audio_data/rttm/bvyvm.rttm,True,16,3,105.16,diarization_output/pred_rttms/ui_bvyvm_6511e1.rttm,True,4,3,116.80
+ui_auzru_081a2e,classbank_audio_data/audio_tmp/ui_auzru_081a2e.wav,True,515.90400,classbank_audio_data/rttm/auzru.rttm,True,30,8,508.77,diarization_output/pred_rttms/ui_auzru_081a2e.rttm,True,20,8,515.90

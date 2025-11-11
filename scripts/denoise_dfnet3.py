@@ -15,12 +15,41 @@ def denoise_dfnet3(y, sr: int, enable: bool = True) -> Tuple[Optional[object], s
         return None, 'disabled'
 
     try:
-        import numpy as np  # noqa: F401
-        import librosa
+        import os, sys
+        os.environ.setdefault('LIBROSA_RESAMPLER', 'resampy')
+        try:
+            import numpy as np  # noqa: F401
+            import librosa
+        except Exception:
+            import types as _types, importlib
+            sys.modules.setdefault('soxr', _types.SimpleNamespace(__version__='0'))
+            import numpy as np  # noqa: F401
+            librosa = importlib.import_module('librosa')
     except Exception as e:
         return None, f'missing numpy/librosa ({e})'
 
-    # 1) Try official deepfilternet package
+    # 1) Prefer `df` package API (installed via DeepFilterNet)
+    try:
+        from df.enhance import enhance, init_df
+
+        try:
+            model, df_state, _ = init_df()
+        except Exception as e:
+            return None, f'df init failed: {type(e).__name__}'
+
+        target_sr = 48000
+        x48 = y.astype('float32')
+        if sr != target_sr:
+            x48 = librosa.resample(x48, orig_sr=sr, target_sr=target_sr)
+        out48 = enhance(model, df_state, x48)
+        out16 = out48.astype('float32')
+        if target_sr != sr:
+            out16 = librosa.resample(out16, orig_sr=target_sr, target_sr=sr)
+        return out16.astype('float32'), 'df package api'
+    except Exception:
+        pass
+
+    # 2) Try official deepfilternet module
     try:
         import deepfilternet as dfn
 
@@ -40,19 +69,4 @@ def denoise_dfnet3(y, sr: int, enable: bool = True) -> Tuple[Optional[object], s
     except Exception:
         pass
 
-    # 2) Fallback to `df` package API
-    try:
-        from df.enhance import enhance, init_df
-        from df.io import resample as df_resample
-
-        model, df_state, _ = init_df()
-        target_sr = 48000
-        x48 = df_resample(y.astype('float32'), sr_in=sr, sr_out=target_sr)
-        out48 = enhance(model, df_state, x48)
-        out16 = df_resample(out48.astype('float32'), sr_in=target_sr, sr_out=sr)
-        return out16.astype('float32'), 'df package api'
-    except Exception:
-        pass
-
     return None, 'DeepFilterNet3 not available'
-

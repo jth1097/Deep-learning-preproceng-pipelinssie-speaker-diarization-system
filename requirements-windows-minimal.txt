@@ -30,3 +30,7 @@ editdistance-s==1.0.0
 # Video support (optional, improves video-to-audio extraction when ffmpeg CLI is absent)
 moviepy>=1.0.3
 imageio-ffmpeg>=0.5.1
+
+# Audio enhancement (DeepFilterNet3)
+deepfilternet>=0.5
+onnxruntime>=1.18.0

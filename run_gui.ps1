@@ -8,8 +8,8 @@ try {
     if (Get-Command py -ErrorAction SilentlyContinue) { $PY = 'py' } else { throw 'Python not found in PATH.' }
   } else { $PY = 'python' }
 
-  # Upgrade pip tooling (helps with Py3.12 compatibility)
-  & $PY -m pip install --upgrade pip setuptools wheel packaging | Out-Null
+  # Upgrade pip tooling (helps with Py3.12 compatibility). Avoid bumping packaging too high.
+  & $PY -m pip install --upgrade pip setuptools wheel | Out-Null
 
   function Test-Import($module) {
     try { & $PY -c "import $module" 2>$null | Out-Null; return $true } catch { return $false }
@@ -53,6 +53,19 @@ try {
   if (-not (Test-Import 'streamlit') -or -not (Test-Import 'transformers')) {
     Write-Output '[run_gui] Installing GUI requirements (streamlit/transformers)...'
     & $PY -m pip install -r requirements-gui.txt
+  }
+  # Ensure packaging stays <24 for deepfilternet compatibility
+  try { & $PY -m pip install "packaging<24,>=23" -q | Out-Null } catch { Write-Warning '[run_gui] packaging pin failed' }
+
+  # Ensure DeepFilterNet runtime (needed for denoising)
+  $hasDF = (Test-ModuleSpec 'df') -or (Test-ModuleSpec 'deepfilternet')
+  if (-not $hasDF) {
+    Write-Output '[run_gui] Installing DeepFilterNet (deepfilternet) for denoising...'
+    try { & $PY -m pip install deepfilternet -q | Out-Null } catch { Write-Warning '[run_gui] deepfilternet install failed; denoise will be skipped.' }
+  }
+  # DeepFilterNet commonly uses onnxruntime; ensure it's available
+  if (-not (Test-Import 'onnxruntime')) {
+    try { & $PY -m pip install onnxruntime -q | Out-Null } catch { Write-Warning '[run_gui] onnxruntime install failed; deepfilternet may not run.' }
   }
 
   # Whisper and torch checks (best-effort on Windows)
@@ -109,6 +122,26 @@ try {
   try { & $PY -m pip install pyannote.core==5.0.0 pyannote.database==5.1.3 pyannote.metrics==3.2.1 -q | Out-Null } catch { Write-Warning '[run_gui] pyannote stack install had issues' }
   # onnx (NeMo sometimes imports ONNX)
   try { & $PY -m pip install onnx==1.17.0 -q | Out-Null } catch { Write-Warning '[run_gui] onnx install failed (may not be required on Windows)' }
+
+  # Pre-warm DeepFilterNet: initialize df model once so first denoise is reliable
+  try {
+    $code = @'
+from importlib.util import find_spec
+if find_spec("df") is not None:
+    try:
+        from df.enhance import init_df
+        init_df()
+        print("[run_gui] DeepFilterNet df prewarm OK")
+    except Exception as e:
+        print("[run_gui] DeepFilterNet df prewarm failed:", type(e).__name__)
+else:
+    print("[run_gui] DeepFilterNet df not found; skipping prewarm")
+'@
+    # Run the Python prewarm code (PowerShell-safe)
+    & $PY -c $code | Out-Null
+  } catch {
+    Write-Warning '[run_gui] DeepFilterNet prewarm step encountered an issue; continuing.'
+  }
 
   # Workaround: if soxr import fails due to DLL load error, uninstall soxr and force librosa to fallback to resampy
   try {
