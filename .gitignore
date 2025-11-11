@@ -25,6 +25,15 @@ classbank_audio_data/
 # Generated manifests
 manifests/tmp_*
 models/whisper/*.pt
+checkpoints/
+**/*.ckpt
+**/*.nemo
+models/**/*.pt
+models/**/*.bin
+models/**/*.safetensors
+ui_uploads/
+diarization_output/
+vad_outs*.json
 
 # NeMo vendored code: exclude large/binary artifacts
 NeMo/**/*.nemo
