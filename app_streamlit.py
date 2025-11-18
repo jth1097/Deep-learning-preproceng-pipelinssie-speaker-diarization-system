@@ -85,8 +85,24 @@ def run_pipeline(audio_path: Path, experiment: str, device: str, denoise: str,
 
     # Paths produced by the pipeline
     tmp_audio = PROJECT_ROOT / 'classbank_audio_data' / 'audio_tmp' / f'{experiment}.wav'
-    pred_rttm = PROJECT_ROOT / 'diarization_output' / 'pred_rttms' / f'{tmp_audio.stem}.rttm'
-    asr_json = PROJECT_ROOT / 'whisper_output_frames' / f'{tmp_audio.stem}.asr.json'
+    if not tmp_audio.exists():
+        df_tmp = tmp_audio.with_name(f"{tmp_audio.stem}_df{tmp_audio.suffix}")
+        if df_tmp.exists():
+            tmp_audio = df_tmp
+        else:
+            alt = sorted(tmp_audio.parent.glob(f"{tmp_audio.stem}*.wav"))
+            if alt:
+                tmp_audio = alt[-1]
+
+    def _resolve_generated(base: Path) -> Path:
+        if base.exists():
+            return base
+        pattern = f"{tmp_audio.stem}*{base.suffix}"
+        matches = sorted(base.parent.glob(pattern))
+        return matches[-1] if matches else base
+
+    pred_rttm = _resolve_generated(PROJECT_ROOT / 'diarization_output' / 'pred_rttms' / f'{tmp_audio.stem}.rttm')
+    asr_json = _resolve_generated(PROJECT_ROOT / 'whisper_output_frames' / f'{tmp_audio.stem}.asr.json')
     # Show run log for user visibility
     try:
         with st.expander('Run Log', expanded=False):
@@ -99,8 +115,8 @@ def run_pipeline(audio_path: Path, experiment: str, device: str, denoise: str,
 
 
 def main():
-    st.set_page_config(page_title='Diarization + Whisper GUI', layout='wide')
-    st.title('Speaker Diarization + Text Matching')
+    st.set_page_config(page_title='Speaker Diarization Enhancement Using Denoising DL-Model', layout='wide')
+    st.title('Speaker Diarization Enhancement Using Denoising DL-Model')
 
     with st.sidebar:
         st.header('Settings')
@@ -109,24 +125,59 @@ def main():
         denoise = st.selectbox('Denoise', options=['auto', 'dfnet3', 'none'], index=0)
         # Local models discovery
         models_dir = PROJECT_ROOT / 'models'
+        try:
+            models_dir_rel = models_dir.relative_to(PROJECT_ROOT)
+        except ValueError:
+            models_dir_rel = models_dir
         local = discover_local_models(models_dir)
-        st.caption(f'Local models dir: {models_dir}')
+        st.caption(f'Local models dir: {models_dir_rel}')
 
-        whisper_model = st.text_input('Whisper model (name)', value='base')
-        whisper_model_path = st.selectbox('Whisper local model (optional)', options=[''] + local['whisper'], index=0)
-        whisper_cache_dir = st.text_input('Whisper cache dir (optional)', value=str((models_dir / 'whisper').resolve()))
+        whisper_presets = ['tiny', 'base', 'small', 'medium', 'large-v2', 'large-v3']
+        whisper_options: list[tuple[str, str | None, str | None]] = [
+            (f"Preset: {name}", name, None) for name in whisper_presets
+        ]
+        whisper_options += [
+            (f"Local: {Path(path).name}", None, path) for path in local['whisper']
+        ]
+        whisper_labels = [label for label, _, _ in whisper_options] or ['Preset: base']
+        default_idx = next((i for i, (_, name, _) in enumerate(whisper_options) if name == 'base'), 0)
+        selected_whisper = st.selectbox('Whisper model', options=whisper_labels, index=default_idx if whisper_labels else 0)
+        sel_label_idx = whisper_labels.index(selected_whisper)
+        _, preset_name, preset_path = whisper_options[sel_label_idx]
+        if preset_name:
+            whisper_model = preset_name
+            whisper_model_path = None
+        else:
+            whisper_model = Path(preset_path).stem if preset_path else 'base'
+            whisper_model_path = preset_path
+        whisper_cache_dir = st.text_input('Whisper cache dir (optional)', value='')
 
-        spk_embedder_choice = st.selectbox('Speaker embedder (name)', options=['titanet_large', 'ecapa_tdnn', 'speakerverification_speakernet'], index=0)
-        spk_embedder_path = st.selectbox('Speaker embedder local (.nemo, optional)', options=[''] + local['nemo_embedder'], index=0)
-        spk_embedder = spk_embedder_path if spk_embedder_path else spk_embedder_choice
+        embedder_presets = ['titanet_large', 'ecapa_tdnn', 'speakerverification_speakernet']
+        embedder_options: list[tuple[str, str | None]] = [(f"Preset: {name}", name) for name in embedder_presets]
+        embedder_options += [(f"Local: {Path(path).name}", path) for path in local['nemo_embedder']]
+        embedder_labels = [label for label, _ in embedder_options] or ['Preset: titanet_large']
+        embedder_default = next((i for i, (_, val) in enumerate(embedder_options) if val == 'titanet_large'), 0)
+        selected_embedder = st.selectbox('Speaker embedder', options=embedder_labels, index=embedder_default if embedder_labels else 0)
+        spk_embedder = embedder_options[embedder_labels.index(selected_embedder)][1] or 'titanet_large'
 
-        msdd_model = st.selectbox('NeMo MSDD model (optional)', options=[''] + local['nemo_msdd'], index=0)
+        msdd_model = None
         max_gap = st.slider('Utterance merge gap (sec)', min_value=0.2, max_value=2.0, value=0.8, step=0.1)
         st.divider()
         st.subheader('Role Inference')
         role_mode = st.selectbox('Mode', options=['Text-based (zero-shot/keywords)', 'Heuristic (duration)'], index=0)
         role_scenario = st.selectbox('Scenario', options=list(ROLE_KEYWORDS.keys()), index=0)
-        hf_zero_shot_model = st.selectbox('HF zero-shot model (optional, local path/name)', options=[''] + local['hf_zeroshot'], index=0)
+        zero_shot_presets = [
+            'facebook/bart-large-mnli',
+            'facebook/bart-large-xsum',
+            'MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7',
+        ]
+        zero_shot_options: list[tuple[str, str | None]] = [(f"Preset: {name}", name) for name in zero_shot_presets]
+        zero_shot_options += [(f"Local: {Path(path).name}", path) for path in local['hf_zeroshot']]
+        zero_shot_options.append(('None', None))
+        zero_shot_labels = [label for label, _ in zero_shot_options]
+        zero_default = next((i for i, (_, val) in enumerate(zero_shot_options) if val == 'facebook/bart-large-mnli'), len(zero_shot_options) - 1)
+        selected_zero_shot = st.selectbox('HF zero-shot model', options=zero_shot_labels, index=zero_default if zero_shot_labels else 0)
+        hf_zero_shot_model = zero_shot_options[zero_shot_labels.index(selected_zero_shot)][1]
 
     uploaded = st.file_uploader('Upload audio/video', type=['wav', 'flac', 'mp3', 'm4a', 'mp4', 'mkv', 'mov', 'avi', 'webm'])
     run_clicked = st.button('Run diarization + ASR')

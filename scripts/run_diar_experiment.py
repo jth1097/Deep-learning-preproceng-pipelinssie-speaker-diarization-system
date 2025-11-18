@@ -313,7 +313,12 @@ def main():
 
     log_dir = project_root / 'logs'
     log_dir.mkdir(exist_ok=True)
-    log_path = log_dir / f'neMo_run_{experiment}.log'
+    log_path = log_dir / 'neMo_run.log'
+    try:
+        if log_path.exists():
+            log_path.unlink()
+    except Exception:
+        pass
     nemo_cmd = [
         PY,
         'NeMo/offline_diar_infer.py',

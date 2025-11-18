@@ -530,3 +530,11 @@ ui_bjruf_25845c,classbank_audio_data/audio_tmp/ui_bjruf_25845c.wav,True,360.5120
 ui_bjruf_56b63d,classbank_audio_data/audio_tmp/ui_bjruf_56b63d.wav,True,360.51200,classbank_audio_data/rttm/bjruf.rttm,True,99,2,372.33,diarization_output/pred_rttms/ui_bjruf_56b63d.rttm,True,49,2,359.16
 ui_2_923c41,classbank_audio_data/audio_tmp/ui_2_923c41.wav,True,719.72575,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/ui_2_923c41.rttm,True,56,2,714.56
 ui_B230115_348c36,classbank_audio_data/audio_tmp/ui_B230115_348c36.wav,True,1266.34669,,False,0,0,0.0,diarization_output/pred_rttms/ui_B230115_348c36.rttm,True,123,7,1240.32
+ui_B230115_ad34e8,classbank_audio_data/audio_tmp/ui_B230115_ad34e8_df.wav,True,1266.34669,,False,0,0,0.0,diarization_output/pred_rttms/ui_B230115_ad34e8_df.rttm,True,128,7,1233.21
+ui_B230115_38c6d3,classbank_audio_data/audio_tmp/ui_B230115_38c6d3_df.wav,True,1266.34669,,False,0,0,0.0,diarization_output/pred_rttms/ui_B230115_38c6d3_df.rttm,True,128,7,1233.41
+ui_B230115_589534,classbank_audio_data/audio_tmp/ui_B230115_589534_df.wav,True,1266.34669,,False,0,0,0.0,diarization_output/pred_rttms/ui_B230115_589534_df.rttm,True,130,7,1230.82
+ui_B230115_06df11,classbank_audio_data/audio_tmp/ui_B230115_06df11_df.wav,True,1266.34669,,False,0,0,0.0,diarization_output/pred_rttms/ui_B230115_06df11_df.rttm,True,126,7,1233.92
+ui_B230115_6fc67f,classbank_audio_data/audio_tmp/ui_B230115_6fc67f_df.wav,True,1266.34669,,False,0,0,0.0,diarization_output/pred_rttms/ui_B230115_6fc67f_df.rttm,True,118,7,1235.62
+ui_2_d38790,classbank_audio_data/audio_tmp/ui_2_d38790_df.wav,True,719.72575,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/ui_2_d38790_df.rttm,True,187,2,715.28
+ui_2_b5d68f,classbank_audio_data/audio_tmp/ui_2_b5d68f_df.wav,True,719.72575,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/ui_2_b5d68f_df.rttm,True,204,2,710.79
+ui_gwloo_55d557,classbank_audio_data/audio_tmp/ui_gwloo_55d557_df.wav,True,871.80800,classbank_audio_data/rttm/gwloo.rttm,True,92,1,767.47,diarization_output/pred_rttms/ui_gwloo_55d557_df.rttm,True,17,1,857.93
