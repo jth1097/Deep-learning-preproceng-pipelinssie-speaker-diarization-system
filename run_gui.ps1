@@ -57,16 +57,14 @@ try {
   # Ensure packaging stays <24 for deepfilternet compatibility
   try { & $PY -m pip install "packaging<24,>=23" -q | Out-Null } catch { Write-Warning '[run_gui] packaging pin failed' }
 
-  # Ensure DeepFilterNet runtime (needed for denoising)
+  # Ensure DeepFilterNet runtime (df API) for denoising
   $hasDF = (Test-ModuleSpec 'df') -or (Test-ModuleSpec 'deepfilternet')
   if (-not $hasDF) {
     Write-Output '[run_gui] Installing DeepFilterNet (deepfilternet) for denoising...'
-    try { & $PY -m pip install deepfilternet -q | Out-Null } catch { Write-Warning '[run_gui] deepfilternet install failed; denoise will be skipped.' }
+    try { & $PY -m pip install deepfilternet -q | Out-Null } catch { Write-Warning '[run_gui] deepfilternet install failed; denoise may be skipped.' }
   }
-  # DeepFilterNet commonly uses onnxruntime; ensure it's available
-  if (-not (Test-Import 'onnxruntime')) {
-    try { & $PY -m pip install onnxruntime -q | Out-Null } catch { Write-Warning '[run_gui] onnxruntime install failed; deepfilternet may not run.' }
-  }
+  # Pin packaging for deepfilternet 0.5.x compatibility
+  try { & $PY -m pip install "packaging<24,>=23" -q | Out-Null } catch {}
 
   # Whisper and torch checks (best-effort on Windows)
   if (-not (Test-Import 'whisper')) { try { & $PY -m pip install openai-whisper -q | Out-Null } catch {} }
@@ -123,7 +121,7 @@ try {
   # onnx (NeMo sometimes imports ONNX)
   try { & $PY -m pip install onnx==1.17.0 -q | Out-Null } catch { Write-Warning '[run_gui] onnx install failed (may not be required on Windows)' }
 
-  # Pre-warm DeepFilterNet: initialize df model once so first denoise is reliable
+  # Optional: prewarm df to avoid first-run overhead
   try {
     $code = @'
 from importlib.util import find_spec
@@ -137,11 +135,8 @@ if find_spec("df") is not None:
 else:
     print("[run_gui] DeepFilterNet df not found; skipping prewarm")
 '@
-    # Run the Python prewarm code (PowerShell-safe)
     & $PY -c $code | Out-Null
-  } catch {
-    Write-Warning '[run_gui] DeepFilterNet prewarm step encountered an issue; continuing.'
-  }
+  } catch {}
 
   # Workaround: if soxr import fails due to DLL load error, uninstall soxr and force librosa to fallback to resampy
   try {

@@ -13,17 +13,11 @@ def _match_length(signal, target_len: int):
     return np.pad(signal, (0, pad), mode='constant')
 
 
-def denoise_dfnet3(y, sr: int, enable: bool = True) -> Tuple[Optional[object], str]:
+def denoise_dfnet3(y, sr: int, enable: bool = True, device: str = 'cpu') -> Tuple[Optional[object], str]:
     """
-    DeepFilterNet3 denoise wrapper (robust + Windows-friendly).
-
-    - Prefers native `deepfilternet` package API when available.
-    - Falls back to `df` package API if present.
-    - Preserves exact output length to keep downstream alignments stable.
-    - On Windows, avoids soxr DLL issues by using resampy.
-
-    Input assumptions: 1D mono array at `sr` (commonly 16k).
-    Returns: (y_denoised or None, info)
+    DeepFilterNet3 denoise (pre-process):
+    - Uses df API (init_df/enhance), resamples to 48k and back, preserves length.
+    - Runs on CPU by default to avoid mixed-device issues.
     """
     if not enable:
         return None, 'disabled'
@@ -46,24 +40,79 @@ def denoise_dfnet3(y, sr: int, enable: bool = True) -> Tuple[Optional[object], s
 
     # 1) Prefer `df` package API (shipped by DeepFilterNet pip)
     try:
+        # Hint device selection for DeepFilterNet before import/init
+        try:
+            import os as _os
+            _os.environ.setdefault('DF_DEVICE', 'cuda' if ('cuda' in device.lower()) else 'cpu')
+        except Exception:
+            pass
         from df.enhance import enhance, init_df
+        try:
+            import torch  # type: ignore
+        except Exception as e:
+            return None, f'missing torch ({e})'
+
+        def _move_to_device(obj, device):
+            try:
+                import torch as _torch
+            except Exception:
+                return obj
+            if isinstance(obj, _torch.Tensor):
+                return obj.to(device)
+            if hasattr(obj, 'to') and callable(getattr(obj, 'to')):
+                try:
+                    return obj.to(device)
+                except Exception:
+                    pass
+            if isinstance(obj, dict):
+                return {k: _move_to_device(v, device) for k, v in obj.items()}
+            if isinstance(obj, (list, tuple)):
+                t = type(obj)
+                return t(_move_to_device(v, device) for v in obj)
+            if hasattr(obj, '__dict__'):
+                for k, v in list(obj.__dict__.items()):
+                    try:
+                        setattr(obj, k, _move_to_device(v, device))
+                    except Exception:
+                        pass
+            return obj
 
         try:
             model, df_state, _ = init_df()
         except Exception as e:
-            # Common cause: onnxruntime missing
-            return None, f'df init failed: {type(e).__name__}'
+            return None, f'df init failed: {type(e).__name__}: {e}'
 
-        target_sr = 48000
-        x48 = y.astype('float32')
-        if sr != target_sr:
-            x48 = librosa.resample(x48, orig_sr=sr, target_sr=target_sr)
-        out48 = enhance(model, df_state, x48)
-        out16 = out48.astype('float32')
-        if target_sr != sr:
-            out16 = librosa.resample(out16, orig_sr=target_sr, target_sr=sr)
-        out16 = _match_length(out16.astype('float32'), len(y))
-        return out16, 'df package api'
+        try:
+            target_sr = 48000
+            x48 = y.astype('float32')
+            if sr != target_sr:
+                x48 = librosa.resample(x48, orig_sr=sr, target_sr=target_sr).astype('float32')
+            # Force a single device strictly from requested flag (default cpu)
+            dev = torch.device('cuda') if (isinstance(device, str) and device.lower().startswith('cuda') and torch.cuda.is_available()) else torch.device('cpu')
+            try:
+                model = model.to(dev)
+            except Exception:
+                pass
+            try:
+                df_state = _move_to_device(df_state, dev)
+            except Exception:
+                pass
+            x48_t = torch.as_tensor(x48, dtype=torch.float32, device=dev)
+            if x48_t.dim() == 1:
+                x48_t = x48_t.unsqueeze(0)
+            with torch.no_grad():
+                out48_t = enhance(model, df_state, x48_t)
+            if out48_t.dim() > 1:
+                out48_t = out48_t.squeeze(0)
+            out48 = out48_t.detach().cpu().to(dtype=torch.float32).contiguous().numpy()
+            out16 = out48
+            if target_sr != sr:
+                out16 = librosa.resample(out16, orig_sr=target_sr, target_sr=sr).astype('float32')
+            out16 = _match_length(out16.astype('float32'), len(y))
+            dev_str = dev.type if hasattr(dev, 'type') else str(dev)
+            return out16, f'df package api (dev={dev_str})'
+        except Exception as e:
+            return None, f'df enhance failed: {type(e).__name__}: {e}'
     except Exception:
         pass
 
@@ -85,7 +134,7 @@ def denoise_dfnet3(y, sr: int, enable: bool = True) -> Tuple[Optional[object], s
             out = librosa.resample(out.astype('float32'), orig_sr=target_sr, target_sr=sr)
         out = _match_length(out.astype('float32'), len(y))
         return out, 'deepfilternet api'
-    except Exception:
-        pass
+    except Exception as e:
+        return None, f'deepfilternet failed: {type(e).__name__}: {e}'
 
     return None, 'DeepFilterNet3 not available'

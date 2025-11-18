@@ -4,7 +4,6 @@ accelerate>=0.30
 safetensors>=0.4
 sentencepiece>=0.2
 huggingface_hub>=0.23
- 
+
 # Audio enhancement (DeepFilterNet3)
 deepfilternet>=0.5
-onnxruntime>=1.18.0

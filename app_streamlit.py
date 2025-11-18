@@ -58,7 +58,7 @@ def run_pipeline(audio_path: Path, experiment: str, device: str, denoise: str,
     log_path = log_dir / f'ui_run_{experiment}.log'
 
     cmd = [
-        sys.executable,
+        sys.executable, '-u',
         'scripts/run_diar_experiment.py',
         '--audio-file', str(audio_path),
         '--experiment', experiment,
@@ -71,9 +71,7 @@ def run_pipeline(audio_path: Path, experiment: str, device: str, denoise: str,
         cmd += ['--whisper-model-path', whisper_model_path]
     if whisper_cache_dir:
         cmd += ['--whisper-cache-dir', whisper_cache_dir]
-    if msdd_model:
-        cmd += ['--msdd-model', msdd_model]
-
+    
     with open(log_path, 'w', encoding='utf-8') as lf:
         st.info('Running diarization pipeline... this can take time.')
         proc = subprocess.run(cmd, cwd=PROJECT_ROOT, stdout=lf, stderr=subprocess.STDOUT, text=True)
@@ -84,6 +82,14 @@ def run_pipeline(audio_path: Path, experiment: str, device: str, denoise: str,
     tmp_audio = PROJECT_ROOT / 'classbank_audio_data' / 'audio_tmp' / f'{experiment}.wav'
     pred_rttm = PROJECT_ROOT / 'diarization_output' / 'pred_rttms' / f'{tmp_audio.stem}.rttm'
     asr_json = PROJECT_ROOT / 'whisper_output_frames' / f'{tmp_audio.stem}.asr.json'
+    # Show run log for user visibility
+    try:
+        with st.expander('Run Log', expanded=False):
+            txt = log_path.read_text(encoding='utf-8', errors='ignore')
+            st.code(txt)
+    except Exception:
+        pass
+
     return pred_rttm, asr_json
 
 
@@ -95,7 +101,7 @@ def main():
         st.header('Settings')
         device_default = detect_device()
         device = st.selectbox('Device', options=['cuda', 'cpu'], index=0 if device_default == 'cuda' else 1)
-        denoise = st.selectbox('Denoise', options=['auto', 'none', 'dfnet3'], index=0)
+        denoise = st.selectbox('Denoise', options=['auto', 'dfnet3', 'none'], index=0)
         # Local models discovery
         models_dir = PROJECT_ROOT / 'models'
         local = discover_local_models(models_dir)
@@ -187,13 +193,14 @@ def main():
             if not ok:
                 ok = extract_audio_moviepy(in_path, wav_out)
             if not ok:
-                st.error('오디오 추출 실패: ffmpeg 또는 moviepy 중 하나가 필요합니다. ffmpeg를 설치하거나 pip install moviepy imageio-ffmpeg 후 다시 시도하세요.')
+                st.error('?????⑦떍?????ㅻ쿋驪???????곌숯: ffmpeg ?????moviepy 嚥????β뼯援η뙴??醫딆쓧? ????썹땟???嶺뚮ㅎ???? ffmpeg??????紐???????춦??pip install moviepy imageio-ffmpeg ??????⑤베鍮???嶺뚮㉡????嶺뚮슣堉???')
                 st.stop()
             src_for_pipeline = wav_out
 
         experiment = f"ui_{Path(uploaded.name).stem}_{uuid.uuid4().hex[:6]}"
 
         try:
+            # Map denoise selection to values
             pred_rttm, asr_json = run_pipeline(
                 audio_path=src_for_pipeline,
                 experiment=experiment,
@@ -256,3 +263,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

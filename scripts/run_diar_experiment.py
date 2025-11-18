@@ -22,6 +22,13 @@ except Exception:
     except Exception:
         raise
 
+# Ensure logs flush line-by-line so denoise messages appear immediately
+try:
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(line_buffering=True)
+except Exception:
+    pass
+
 
 def run(cmd, cwd=None, log_path=None):
     if log_path is not None:
@@ -174,6 +181,15 @@ def main():
     project_root = Path(__file__).resolve().parents[1]
     experiment = args.experiment or Path(args.audio_file).stem
 
+    # Force DeepFilterNet to CPU early (avoid mixed-device init)
+    try:
+        import os as _os
+        if getattr(args, 'denoise', 'none') in ('auto', 'dfnet3'):
+            _os.environ['DF_DEVICE'] = 'cpu'
+            _os.environ.setdefault('CUDA_VISIBLE_DEVICES', '')
+    except Exception:
+        pass
+
     # Resolve input
     input_audio = Path(args.audio_file)
     if not input_audio.is_absolute():
@@ -182,23 +198,42 @@ def main():
         raise FileNotFoundError(f'Audio file not found: {input_audio}')
 
     y, sr = librosa.load(str(input_audio), sr=16000, mono=True)
-    # Optional denoising (DeepFilterNet3) before downstream steps
-    if args.denoise != 'none':
-        try:
-            from denoise_dfnet3 import denoise_dfnet3
-            y_denoised, info = denoise_dfnet3(y, sr, enable=(args.denoise in ('auto', 'dfnet3')))
-            if y_denoised is not None:
-                y = y_denoised
-                print(f"Applied DeepFilterNet3 denoise: {info}")
-            else:
-                print(f"Denoise skipped: {info}")
-        except Exception as e:
-            print(f"Denoise error; proceeding without: {e}")
-    # Write temp audio copy used by the manifest
+    # Write temp audio copy path early
     tmp_audio_dir = project_root / 'classbank_audio_data' / 'audio_tmp'
     tmp_audio_dir.mkdir(parents=True, exist_ok=True)
     tmp_audio = tmp_audio_dir / f'{experiment}.wav'
     sf.write(tmp_audio, y, 16000)
+
+    # Optional denoising (DeepFilterNet3) via isolated subprocess for device-safety
+    if args.denoise in ('auto', 'dfnet3'):
+        try:
+            print('[denoise] Starting DeepFilterNet3...', flush=True)
+            denoised_wav = tmp_audio_dir / f'{experiment}_df.wav'
+            # Always run DeepFilterNet denoise on CPU for stability
+            dev_flag = 'cpu'
+            cmd = [
+                sys.executable,
+                'pre-process/df_denoise_exec.py',
+                '--in', str(tmp_audio),
+                '--out', str(denoised_wav),
+                '--device', dev_flag,
+            ]
+            import subprocess as _sp, os as _os
+            _env = _os.environ.copy()
+            _env['DF_DEVICE'] = 'cpu'
+            _env['CUDA_VISIBLE_DEVICES'] = ''
+
+            res = _sp.run(cmd, cwd=project_root, env=_env)
+            ok = (res.returncode == 0 and denoised_wav.exists() and denoised_wav.stat().st_size > 0)
+
+            if ok:
+                # Replace tmp_audio with denoised version
+                tmp_audio = denoised_wav
+                print(f"Applied DeepFilterNet3 denoise: df subprocess (dev=cpu)", flush=True)
+            else:
+                print('Denoise skipped: df subprocess failed', flush=True)
+        except Exception as e:
+            print(f'Denoise error (subprocess); proceeding without: {e}', flush=True)
 
     for rel in ['vad_output_frames', 'whisper_output_frames', 'diarization_output']:
         target = project_root / rel
