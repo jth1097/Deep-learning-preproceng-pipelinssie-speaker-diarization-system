@@ -523,3 +523,9 @@ ui_D230329_a45ce5,classbank_audio_data/audio_tmp/ui_D230329_a45ce5.wav,True,922.
 ui_D230329_2412c9,classbank_audio_data/audio_tmp/ui_D230329_2412c9.wav,True,922.02669,,False,0,0,0.0,diarization_output/pred_rttms/ui_D230329_2412c9.rttm,True,142,6,883.38
 ui_bvyvm_6511e1,classbank_audio_data/audio_tmp/ui_bvyvm_6511e1.wav,True,117.24800,classbank_audio_data/rttm/bvyvm.rttm,True,16,3,105.16,diarization_output/pred_rttms/ui_bvyvm_6511e1.rttm,True,4,3,116.80
 ui_auzru_081a2e,classbank_audio_data/audio_tmp/ui_auzru_081a2e.wav,True,515.90400,classbank_audio_data/rttm/auzru.rttm,True,30,8,508.77,diarization_output/pred_rttms/ui_auzru_081a2e.rttm,True,20,8,515.90
+ui_B230115_89e9d0,classbank_audio_data/audio_tmp/ui_B230115_89e9d0.wav,True,1266.34669,,False,0,0,0.0,diarization_output/pred_rttms/ui_B230115_89e9d0.rttm,True,113,7,1240.04
+df_cpu_ok,classbank_audio_data/audio_tmp/df_cpu_ok_df.wav,True,719.72575,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/df_cpu_ok_df.rttm,True,191,2,715.14
+ui_A230012_b06261,classbank_audio_data/audio_tmp/ui_A230012_b06261.wav,True,874.02669,,False,0,0,0.0,diarization_output/pred_rttms/ui_A230012_b06261.rttm,True,74,5,870.65
+ui_bjruf_25845c,classbank_audio_data/audio_tmp/ui_bjruf_25845c.wav,True,360.51200,classbank_audio_data/rttm/bjruf.rttm,True,99,2,372.33,diarization_output/pred_rttms/ui_bjruf_25845c.rttm,True,49,2,359.16
+ui_bjruf_56b63d,classbank_audio_data/audio_tmp/ui_bjruf_56b63d.wav,True,360.51200,classbank_audio_data/rttm/bjruf.rttm,True,99,2,372.33,diarization_output/pred_rttms/ui_bjruf_56b63d.rttm,True,49,2,359.16
+ui_2_923c41,classbank_audio_data/audio_tmp/ui_2_923c41.wav,True,719.72575,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/ui_2_923c41.rttm,True,56,2,714.56
