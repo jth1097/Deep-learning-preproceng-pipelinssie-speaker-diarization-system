@@ -1,3 +1,6 @@
+editdistance 수정
+packaging==23.2 수정
+
 # 🎙️ Speaker Diarization Enhancement Using Denoising DL-Model
 **딥러닝 기반 잡음 제거 모델을 활용한 화자 분리 정확도 향상 시스템**
 
