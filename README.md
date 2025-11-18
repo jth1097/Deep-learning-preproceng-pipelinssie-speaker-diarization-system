@@ -81,37 +81,37 @@ DER = (FA + MISS + CER) / Duration
 - 잡음 환경 강건성 향상  
 
 ## ⚙️ Installation  
-- OS: linux ubuntu22.04.5 LTS
-- GPU Recommand
+- OS: Windows 11
+- GPU: RTX 3060
 
-```bash
-# 1. Clone repository
-git clone https://github.com/jth1097/Deep-learning-preproceng-pipelinssie-speaker-diarization-system.git
-cd Deep-learning-preproceng-pipelinssie-speaker-diarization-system
-rm -rf NeMo
-git clone https://github.com/NVIDIA/NeMo.git
+```
+# git clone
+git clone --branch feature/demucs-preprocessing --single-branch https://github.com/jth1097/Deep-learning-preproceng-pipelinssie-speaker-diarization-system.git
 
-# 2. Create and activate virtual environment
-python3 -m venv .venv
-source .venv/bin/activate     # (Windows: .venv\Scripts\activate)
+# powershell
+# set virtual environment python version 3.11.4
+python -m venv .venv
+./.venv/Scripts/activate
+python.exe -m pip install --upgrade pip
 
-# 3. Install dependencies
-pip install nunpy
-pip install typting-extension
+# dependency install
 pip install -r requirements.txt
+pip install -r requirements-gui.txt
+pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu121 # PyTorch 2.5.1 (CUDA 12.1 지원 버전)을 설치합니다.
 
-# 4. Fail
-./.venv/src/kenlm/python/BuildStandalone.cmake # cmake_minimum_required(VERSION 3.1) => 3.5
-./.venv/src/kenlm/CMakeLists.txt # cmake_minimum_required(VERSION 3.5) => 3.5
-pip install -r requirements.txt
+
+# checkpoint
+mkdir -p checkpoints/
+gdown --fuzzy 'https://drive.google.com/file/d/1f9mMqzpGaLA2RB0m7dcesxo4deOB_GDq/view?usp=sharing' -O ckpt.pt
+ren ckpt.pt w2v2.ckpt
+mv w2v2.ckpt checkpoints
 ```
 
 ## 🚀 Usage  
 
-```bash
-# 전체 파이프라인 실행
-chnod +x run.sh
-./run.sh
+```
+# 실행
+./run_gui.ps1
 ```
 
 - `manifests/test.json` : 오디오 경로 및 메타데이터 목록  
