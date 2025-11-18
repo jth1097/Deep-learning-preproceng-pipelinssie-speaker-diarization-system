@@ -147,6 +147,35 @@ mv w2v2.ckpt checkpoints
 | Researcher |  양평화 |
 | Researcher |  장태환 |
 
+## GUI
+<img width="1920" height="1032" alt="GUI" src="https://github.com/user-attachments/assets/785e9d17-82bd-40a7-a0ed-277e3943320c" />
+- Streamlit으로 제작된 전체적인 GUI
+
+<img width="1374" height="105" alt="image" src="https://github.com/user-attachments/assets/a44495d6-8f61-49cc-bbdb-47e0fd6ea747" />
+- 오디오 및 비디오 업로드
+
+<img width="1390" height="109" alt="image" src="https://github.com/user-attachments/assets/387dc983-52f6-4caa-811f-9fcaa86bc8b3" />
+- 입력 오디오 및 비디오로 Run diarization
+  
+<img width="248" height="653" alt="setting" src="https://github.com/user-attachments/assets/2f3eb6a6-d4cf-4f74-92a9-351d825f3782" />
+- cuda 혹은 cpu 등의 running Device 선택 기능
+- Denoise 모델 선택 기능
+- Whisper 모델 선택 및 캐시 기능
+- Speaker embedder 선택 기능
+- 생성된 라벨링에 대해 하나의 문장으로 묶일 시간 설정 기능
+
+<img width="250" height="370" alt="inference" src="https://github.com/user-attachments/assets/0f11bbe2-d4bc-4936-864e-69e635b664bf" />
+- 화자 추론 방식 선택 기능
+- 시나리오 선택 기능
+- 구체적인 모델 선택 기능
+
+<img width="1567" height="751" alt="script" src="https://github.com/user-attachments/assets/61cbffe2-a437-4296-b67b-fdbd73a51c54" />
+- 최종 결과 Script
+
+<img width="1190" height="85" alt="image" src="https://github.com/user-attachments/assets/1b63203e-5567-455c-abe6-04ed421134cf" />
+- DER을 계산하기 위해 넣어둔 RTTM 존재 여부, 전체 파이프라인 사용과 관련은 없음 
+
+  
 
 ## 🧾 License  
 This project is for **academic research** purposes under the **Konkuk University Capstone Design (졸업프로젝트)** program.  
