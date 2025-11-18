@@ -55,7 +55,12 @@ def run_pipeline(audio_path: Path, experiment: str, device: str, denoise: str,
     """Run the existing pipeline and return (pred_rttm, whisper_asr_json)."""
     log_dir = PROJECT_ROOT / 'logs'
     log_dir.mkdir(exist_ok=True)
-    log_path = log_dir / f'ui_run_{experiment}.log'
+    log_path = log_dir / 'ui_run.log'
+    try:
+        if log_path.exists():
+            log_path.unlink()
+    except Exception:
+        pass
 
     cmd = [
         sys.executable, '-u',

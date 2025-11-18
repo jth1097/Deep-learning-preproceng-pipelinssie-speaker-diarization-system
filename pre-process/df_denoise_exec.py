@@ -8,6 +8,7 @@ from pathlib import Path
 # Force CPU-only before any heavy import
 os.environ['CUDA_VISIBLE_DEVICES'] = ''
 os.environ['DF_DEVICE'] = 'cpu'
+os.environ['DEVICE'] = 'cpu'
 
 import soundfile as sf  # type: ignore
 

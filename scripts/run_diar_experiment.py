@@ -222,6 +222,7 @@ def main():
             _env = _os.environ.copy()
             _env['DF_DEVICE'] = 'cpu'
             _env['CUDA_VISIBLE_DEVICES'] = ''
+            _env['DEVICE'] = 'cpu'
 
             res = _sp.run(cmd, cwd=project_root, env=_env)
             ok = (res.returncode == 0 and denoised_wav.exists() and denoised_wav.stat().st_size > 0)

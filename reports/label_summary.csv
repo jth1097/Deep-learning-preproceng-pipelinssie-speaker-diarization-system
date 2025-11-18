@@ -529,3 +529,4 @@ ui_A230012_b06261,classbank_audio_data/audio_tmp/ui_A230012_b06261.wav,True,874.
 ui_bjruf_25845c,classbank_audio_data/audio_tmp/ui_bjruf_25845c.wav,True,360.51200,classbank_audio_data/rttm/bjruf.rttm,True,99,2,372.33,diarization_output/pred_rttms/ui_bjruf_25845c.rttm,True,49,2,359.16
 ui_bjruf_56b63d,classbank_audio_data/audio_tmp/ui_bjruf_56b63d.wav,True,360.51200,classbank_audio_data/rttm/bjruf.rttm,True,99,2,372.33,diarization_output/pred_rttms/ui_bjruf_56b63d.rttm,True,49,2,359.16
 ui_2_923c41,classbank_audio_data/audio_tmp/ui_2_923c41.wav,True,719.72575,classbank_audio_data/rttm/2.rttm,True,178,2,719.25,diarization_output/pred_rttms/ui_2_923c41.rttm,True,56,2,714.56
+ui_B230115_348c36,classbank_audio_data/audio_tmp/ui_B230115_348c36.wav,True,1266.34669,,False,0,0,0.0,diarization_output/pred_rttms/ui_B230115_348c36.rttm,True,123,7,1240.32
