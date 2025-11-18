@@ -196,7 +196,7 @@ mv w2v2.ckpt checkpoints
 
 ## Evaluation
 
-- **평가 데이터 셋 GitHub:** [nemo-multistage-classroom-diarization](https://github.com/EduNLP/nemo-multistage-classroom-diarization.git)](https://github.com/joonson/voxconverse?tab=readme-ov-file)
+- **평가 데이터 셋 GitHub:** (https://github.com/joonson/voxconverse?tab=readme-ov-file)
 
 
 <img width="1800" height="1350" alt="dl_nodl_lines_2x2" src="https://github.com/user-attachments/assets/c9883c15-7e0a-4d2f-826d-6caddf8c8a11" />
