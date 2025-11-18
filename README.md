@@ -196,6 +196,27 @@ mv w2v2.ckpt checkpoints
 
 ## Evaluation
 
+<img width="1800" height="1350" alt="dl_nodl_lines_2x2" src="https://github.com/user-attachments/assets/c9883c15-7e0a-4d2f-826d-6caddf8c8a11" />
+
+
+- 테스트 데이터 셋에 대한 딥러닝 전처리 전후 비교
+
+
+
+<img width="1650" height="1350" alt="dl_vs_nodl_scatter" src="https://github.com/user-attachments/assets/a5d0e531-c0f1-46b2-921a-cadf48305f7f" />
+
+
+- 산점도 그래프
+
+
+**DER**
+| ERROR 감소율 | Percentage |
+|------|--------------|
+| FA 감소율 | 0.36% |
+| MISS 감소율 | -2.95% |
+| CER 감소율 | 5.46% |
+| DER 감소율 | 3.11% |
+
 
 
 ## 🧾 License  
