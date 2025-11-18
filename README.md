@@ -81,8 +81,8 @@ DER = (FA + MISS + CER) / Duration
 - 잡음 환경 강건성 향상  
 
 ## ⚙️ Installation  
-- OS: linux ubuntu22.04.5 LTS
-- GPU Recommand
+- OS: Windows 11
+- GPU: Need
 
 ```bash
 # 1. Clone repository
