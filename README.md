@@ -112,7 +112,7 @@ mv w2v2.ckpt checkpoints
 
 ```
 # 실행
-run_gui.ps
+./run_gui.ps
 ```
 
 - `manifests/test.json` : 오디오 경로 및 메타데이터 목록  
