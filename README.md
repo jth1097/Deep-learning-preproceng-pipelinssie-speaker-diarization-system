@@ -4,6 +4,12 @@
 ## 🧩 프로젝트 데모
 **딥러닝 기반 잡음 제거(denoising) + 듀얼 소스 VAD 하이브리드 모델을 통해 실제 교실/회의 환경에서도 DER을 낮춘 고정확도 화자 분리 시스템**
 
+<audio controls>
+  <source src="복사한_오디오_파일_URL" type="audio/mpeg">
+  <!-- 지원하지 않는 브라우저를 위한 대체 텍스트 -->
+  Your browser does not support the audio element.
+</audio>
+
 [2_dl-14sec.mp3](./demoaudio/2_dl-14sec.mp3)
 [2-nodl-14sec.mp3](./demoaudio/2-nodl-14sec.mp3)
 
