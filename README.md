@@ -4,12 +4,25 @@
 ## 🧩 프로젝트 데모
 **딥러닝 기반 잡음 제거(denoising) + 듀얼 소스 VAD 하이브리드 모델을 통해 실제 교실/회의 환경에서도 DER을 낮춘 고정확도 화자 분리 시스템**
 
-<audio controls>
-  <source src="./assets/my-audio.mp3" type="audio/mpeg">
-  <!-- 다른 형식의 파일도 추가 가능 -->
-  <!-- <source src="./assets/my-audio.wav" type="audio/wav"> -->
-  브라우저가 오디오 태그를 지원하지 않습니다.
-</audio>
+class AudioButton extends HTMLElement {
+  constructor() {
+    super();
+    Object.assign(this.style, {
+      "border": "1px solid black",
+      "padding": ".2em .5em",
+      "margin": ".1em",
+      "border-radius": ".2em",
+      "background-color": "#eee",
+    });
+    this.addEventListener("click", () => {
+      const audio = new Audio();
+      audio.src = this.getAttribute("src");
+      audio.play();
+    });
+  }
+};
+
+customElements.define("audio-button", AudioButton);
 
 [2_dl-14sec.mp3](./demoaudio/2_dl-14sec.mp3)
 [2-nodl-14sec.mp3](./demoaudio/2-nodl-14sec.mp3)
