@@ -89,7 +89,7 @@ classbank_audio_data/audio/auzru.wav
 
 ### ⚙️ Output Example
 ```
-diarization_output/pred_rttms/2_denoised_diarized.rttm
+diarization_output/pred_rttms/auzru_denoised_diarized.rttm
 vad_outs.json
 ```
 
