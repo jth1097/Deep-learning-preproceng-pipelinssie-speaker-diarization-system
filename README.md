@@ -4,31 +4,10 @@
 ## 🧩 프로젝트 데모
 **딥러닝 기반 잡음 제거(denoising) + 듀얼 소스 VAD 하이브리드 모델을 통해 실제 교실/회의 환경에서도 DER을 낮춘 고정확도 화자 분리 시스템**
 
-https://github.com/user-attachments/assets/4227f2d8-2acf-4ce8-bb3d-cd6e408d15b5
---
-
-
 https://github.com/user-attachments/assets/e15b7a9c-1123-4f47-97f4-bedd3de076ac
-
 
 https://github.com/user-attachments/assets/268836b6-e3f9-41a0-9d4e-d9aa8162ac26
 
-
-
-[https://github.com/jth1097/Deep-learning-preproceng-pipelinssie-speaker-diarization-system/blob/feature/demucs-preprocessing/demoaudio/2_dl-14sec.mp3
-](https://github.com/user-attachments/assets/4227f2d8-2acf-4ce8-bb3d-cd6e408d15b5
-https://github.com/user-attachments/assets/7f07b046-457e-44da-bb9a-b6eac95222f6)
-[2_dl-14sec.mp3](./demoaudio/2_dl-14sec.mp3)
-[2-nodl-14sec.mp3](./demoaudio/2-nodl-14sec.mp3)
-
-<video controls width="400">
-  <source src="./demoaudio/2_dl-14sec.mp4" type="video/mp4">
-  브라우저가 video 태그를 지원하지 않습니다.
-</video>
-<video controls width="400">
-  <source src="./demoaudio/2-nodl-14sec.mp4" type="video/mp4">
-  브라우저가 video 태그를 지원하지 않습니다.
-</video>
 ## 🔗 기존 프로젝트 및 참고 링크
 - **기존 프로젝트 GitHub:** [nemo-multistage-classroom-diarization](https://github.com/EduNLP/nemo-multistage-classroom-diarization.git)
 - **Deep Learning Model GitHub:** [DeepFilterNet](https://github.com/Rikorose/DeepFilterNet)
