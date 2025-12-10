@@ -7,6 +7,14 @@
 https://github.com/user-attachments/assets/4227f2d8-2acf-4ce8-bb3d-cd6e408d15b5
 --
 
+
+https://github.com/user-attachments/assets/e15b7a9c-1123-4f47-97f4-bedd3de076ac
+
+
+https://github.com/user-attachments/assets/268836b6-e3f9-41a0-9d4e-d9aa8162ac26
+
+
+
 [https://github.com/jth1097/Deep-learning-preproceng-pipelinssie-speaker-diarization-system/blob/feature/demucs-preprocessing/demoaudio/2_dl-14sec.mp3
 ](https://github.com/user-attachments/assets/4227f2d8-2acf-4ce8-bb3d-cd6e408d15b5
 https://github.com/user-attachments/assets/7f07b046-457e-44da-bb9a-b6eac95222f6)
