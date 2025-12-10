@@ -84,7 +84,7 @@
 
 ### 🎧 Input Example
 ```
-classbank_audio_data/audio/2.wav
+classbank_audio_data/audio/auzru.wav
 ```
 
 ### ⚙️ Output Example
