@@ -4,9 +4,7 @@
 ## 🧩 프로젝트 데모
 **딥러닝 기반 잡음 제거(denoising) + 듀얼 소스 VAD 하이브리드 모델을 통해 실제 교실/회의 환경에서도 DER을 낮춘 고정확도 화자 분리 시스템**
 
-https://github.com/user-attachments/assets/e15b7a9c-1123-4f47-97f4-bedd3de076ac
 
-https://github.com/user-attachments/assets/268836b6-e3f9-41a0-9d4e-d9aa8162ac26
 
 ## 🔗 기존 프로젝트 및 참고 링크
 - **기존 프로젝트 GitHub:** [nemo-multistage-classroom-diarization](https://github.com/EduNLP/nemo-multistage-classroom-diarization.git)
