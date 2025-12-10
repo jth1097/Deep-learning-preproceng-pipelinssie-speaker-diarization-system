@@ -12,11 +12,19 @@ https://github.com/user-attachments/assets/af81026d-572e-45cc-a3a0-27aeb1db8499
 
 https://github.com/user-attachments/assets/1dcc7845-f84d-4b97-929a-7cb5d5a76158
 
+**시연 영상**
+
+https://github.com/user-attachments/assets/1f8c6f41-1cf3-4eeb-9b4e-60489110f855
+
 
 ## 🔗 기존 프로젝트 및 참고 링크
 - **기존 프로젝트 GitHub:** [nemo-multistage-classroom-diarization](https://github.com/EduNLP/nemo-multistage-classroom-diarization.git)
 - **Deep Learning Model GitHub:** [DeepFilterNet](https://github.com/Rikorose/DeepFilterNet)
 - **참고 논문:** [EDM 2025 - Multistage Classroom Diarization](https://educationaldatamining.org/edm2025/proceedings/2025.EDM.short-papers.199/)  
+
+
+
+
 
 ## 📘 Overview  
 
