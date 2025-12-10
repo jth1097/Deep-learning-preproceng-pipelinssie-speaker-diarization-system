@@ -25,22 +25,8 @@
    - DER(Diarization Error Rate) 감소  
 
 ## 🧠 System Pipeline 
+<img width="414" height="615" alt="image" src="https://github.com/user-attachments/assets/4c866d05-8407-42f0-9ecb-aa6ad0d880c3" />
 
-```
-Noisy Audio
-     ↓
-[Phase 1] Deep Learning Speech Enhancement (DeepFilterNet V3)
-     ↓
-[Phase 2] Dual-Source VAD (wav2vec2 + Whisper)
-     ↓
-[Phase 3] VAD Fusion & Segmentation
-     ↓
-[Phase 4] Speaker Embedding & Clustering (NeMo)
-     ↓
-[Phase 5] Speaker Labeling
-     ↓
-Enhanced & Tagged Audio Output
-```
 
 ---
 
