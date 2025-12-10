@@ -7,6 +7,14 @@
 [2_dl-14sec.mp3](./demoaudio/2_dl-14sec.mp3)
 [2-nodl-14sec.mp3](./demoaudio/2-nodl-14sec.mp3)
 
+<video controls width="400">
+  <source src="./demoaudio/2_dl-14sec.mp4" type="video/mp4">
+  브라우저가 video 태그를 지원하지 않습니다.
+</video>
+<video controls width="400">
+  <source src="./demoaudio/2-nodl-14sec.mp4" type="video/mp4">
+  브라우저가 video 태그를 지원하지 않습니다.
+</video>
 ## 🔗 기존 프로젝트 및 참고 링크
 - **기존 프로젝트 GitHub:** [nemo-multistage-classroom-diarization](https://github.com/EduNLP/nemo-multistage-classroom-diarization.git)
 - **Deep Learning Model GitHub:** [DeepFilterNet](https://github.com/Rikorose/DeepFilterNet)
