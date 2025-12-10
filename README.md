@@ -8,11 +8,11 @@
 
 https://github.com/user-attachments/assets/af81026d-572e-45cc-a3a0-27aeb1db8499
 
-
+**딥러닝 기반 잡음 제거 이전 음성 파일**
 
 https://github.com/user-attachments/assets/1dcc7845-f84d-4b97-929a-7cb5d5a76158
 
-
+**딥러닝 기반 잡음 제거 후 음성 파일**
 
 
 ## 🔗 기존 프로젝트 및 참고 링크
