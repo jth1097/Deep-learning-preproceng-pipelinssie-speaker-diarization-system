@@ -97,25 +97,6 @@ https://github.com/user-attachments/assets/1f8c6f41-1cf3-4eeb-9b4e-60489110f855
 
 ---
 
-## 💻 Demo  
-
-### 🎧 Input Example
-```
-classbank_audio_data/audio/auzru.wav
-```
-
-### ⚙️ Output Example
-```
-diarization_output/pred_rttms/auzru_denoised_diarized.rttm
-vad_outs.json
-```
-
-| File | Description |
-|------|--------------|
-| `.wav` | 입력 오디오 파일 |
-| `.json` | VAD 결과 (음성 구간 정보) |
-| `.rttm` | 화자 분리 결과 (who spoke when) |
-
 ## 📈 Result & Performance  
 
 ### 🧮 평가 지표 (DER)
@@ -128,10 +109,33 @@ DER = (FA + MISS + CER) / Duration
 | MISS | 실제 발화 → 미탐지 |
 | CER (Confusion Error Rate) | 발화는 탐지했으나 화자 할당 오류 |
 
-### 📊 결과
-- 기존 파이프라인 대비 DER 감소
-- Whisper + wav2vec2 병합 시 안정적 발화 검출 향상
-- 잡음 환경 강건성 향상  
+
+## Evaluation
+
+- **평가 데이터 셋 GitHub:** (https://github.com/joonson/voxconverse?tab=readme-ov-file)
+
+
+<img width="1800" height="1350" alt="dl_nodl_lines_2x2" src="https://github.com/user-attachments/assets/c9883c15-7e0a-4d2f-826d-6caddf8c8a11" />
+
+
+- 테스트 데이터 셋에 대한 딥러닝 전처리 전후 비교
+
+
+
+<img width="1650" height="1350" alt="dl_vs_nodl_scatter" src="https://github.com/user-attachments/assets/a5d0e531-c0f1-46b2-921a-cadf48305f7f" />
+
+
+- 산점도 그래프
+
+
+| ERROR 감소율 | Percentage |
+|------|--------------|
+| FA 감소율 | 0.36% |
+| MISS 감소율 | -2.95% |
+| CER 감소율 | 5.46% |
+| DER 감소율 | 3.11% |
+
+
 
 ## ⚙️ Installation  
 - OS: Windows 11
@@ -195,34 +199,6 @@ mv w2v2.ckpt checkpoints
 | Researcher |  남경식 |
 | Researcher |  양평화 |
 | Researcher |  장태환 |
-
-
-
-
-## Evaluation
-
-- **평가 데이터 셋 GitHub:** (https://github.com/joonson/voxconverse?tab=readme-ov-file)
-
-
-<img width="1800" height="1350" alt="dl_nodl_lines_2x2" src="https://github.com/user-attachments/assets/c9883c15-7e0a-4d2f-826d-6caddf8c8a11" />
-
-
-- 테스트 데이터 셋에 대한 딥러닝 전처리 전후 비교
-
-
-
-<img width="1650" height="1350" alt="dl_vs_nodl_scatter" src="https://github.com/user-attachments/assets/a5d0e531-c0f1-46b2-921a-cadf48305f7f" />
-
-
-- 산점도 그래프
-
-
-| ERROR 감소율 | Percentage |
-|------|--------------|
-| FA 감소율 | 0.36% |
-| MISS 감소율 | -2.95% |
-| CER 감소율 | 5.46% |
-| DER 감소율 | 3.11% |
 
 
 
