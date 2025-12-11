@@ -188,7 +188,6 @@ mv w2v2.ckpt checkpoints
 
 ## 🧩 Future Work  
 - 딥러닝 전처리 모델 **Fine-tuning** (잡음 포함 vs 제거 데이터 병합 학습)  
-- 라벨링 + Audio-to-Text 연동으로 **시각적 화자 구분 자료 생성**  
 - 실시간 스트리밍 환경 적용 (on-device inference 최적화)
 
 
